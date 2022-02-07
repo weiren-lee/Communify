@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:communify/helper/functions.dart';
 import 'package:communify/services/auth.dart';
-import 'package:communify/views/home.dart';
 import 'package:communify/views/signup.dart';
 import 'package:communify/widgets/widgets.dart';
 

@@ -1,11 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:communify/views/signin.dart';
 import 'package:communify/widgets/profile_avatar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:communify/services/database.dart';
 import 'package:communify/views/create_feed.dart';
-import 'package:communify/widgets/widgets.dart';
 import 'package:communify/services/auth.dart';
 import 'package:flutter/foundation.dart';
 

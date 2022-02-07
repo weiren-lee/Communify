@@ -9,8 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:communify/services/database.dart';
 import 'package:communify/widgets/widgets.dart';
 import 'package:random_string/random_string.dart';
-import 'package:intl/intl.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class DatabaseService {
   Future<void> addHouseData(Map<String, dynamic> houseMap, String houseId) async {
@@ -41,22 +40,15 @@ class DatabaseService {
     });
   }
 
-  // Future<String?> getUserEmail() async {
-  //   return FirebaseAuth.instance.currentUser!.email.toString();
-  // }
-  //
-  // getUserName() async {
-  //   return await FirebaseFirestore.instance.collection("user").snapshots();
-  // }
 
-  updateUserHouse(userId, houseId) async {
-    await FirebaseFirestore.instance
-        .collection("user")
-        .doc(userId)
-        .update({"houseId": houseId})
-    .whenComplete(() async{
-      print("house updated");
-    }).catchError((e) => print(e));
+  updateHouseUsers(houseId, username) async {
+    FirebaseFirestore.instance
+        .collection("house")
+        .doc(houseId)
+        .update({"users": FieldValue.arrayUnion([username])})
+        .whenComplete(() async{
+          print("name added to house");
+        }).catchError((e) => print(e));
   }
 
   getUid(username) async {
@@ -66,13 +58,4 @@ class DatabaseService {
     String userId = userDetails['userId'];
     return userId;
   }
-
-  // getUserId(username) async {
-  //   return await FirebaseFirestore.instance
-  //       .collection("user")
-  //       .where("name", isEqualTo: username)
-  //       .snapshots();
-  // }
-
-
 }

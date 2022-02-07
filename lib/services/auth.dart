@@ -23,22 +23,6 @@ class AuthService {
     }
   }
 
-  // getUserId() {
-  //   try {
-  //     User? currentUser = _auth.currentUser;
-  //     currentUser?.reload();
-  //     if (currentUser != null) {
-  //       String? username = currentUser.displayName;
-  //       var snapshot = databaseService.getUserId(username);
-  //       print(snapshot.data['userId']);
-  //       var userId = snapshot.data['userId'];
-  //       return userId;
-  //     }
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
-
   Future signInEmailAndPass(String email, String password) async {
     try {
       UserCredential authResult = await _auth.signInWithEmailAndPassword(

@@ -93,19 +93,6 @@ class _CreateFeedState extends State<CreateFeed> {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
                   children: [
-                    // TextFormField( //to delete
-                    //   validator: (val) =>
-                    //       val!.isEmpty ? "Enter Image Url" : null,
-                    //   decoration: const InputDecoration(
-                    //     hintText: "Image Url (optional)",
-                    //   ),
-                    //   onChanged: (val) {
-                    //     feedImageUrl = val;
-                    //   },
-                    // ),
-                    // const SizedBox(
-                    //   height: 6,
-                    // ),
                     TextFormField(
                       validator: (val) =>
                           val!.isEmpty ? "Enter your thoughts here" : null,

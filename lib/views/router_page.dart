@@ -1,4 +1,6 @@
 import 'package:communify/services/auth.dart';
+import 'package:communify/views/chores.dart';
+import 'package:communify/views/create_chores.dart';
 import 'package:communify/views/home.dart';
 import 'package:communify/views/signin.dart';
 import 'package:communify/widgets/widgets.dart';
@@ -48,7 +50,7 @@ class _RouterPageState extends State<RouterPage> {
         index: currentIndex,
         children: [
           Home(houseId: widget.houseId),
-          Center(child: Text('Tools', style: TextStyle(fontSize: 50),)),
+          Chores(houseId: widget.houseId,),
           Center(child: Text('Calendar', style: TextStyle(fontSize: 50),)),
           Center(child: Text('Settings', style: TextStyle(fontSize: 50),)),
         ],

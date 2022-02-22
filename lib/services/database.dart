@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
-  Future<void> addHouseData(Map<String, dynamic> houseMap, String houseId) async {
+  Future<void> addHouseData(Map<String, dynamic> houseMap,
+      String houseId) async {
     await FirebaseFirestore.instance
         .collection("house")
         .doc(houseId)
@@ -11,7 +12,7 @@ class DatabaseService {
     });
   }
 
-  getHouseData() async{
+  getHouseData() async {
     return await FirebaseFirestore.instance.collection("house").snapshots();
   }
 
@@ -25,9 +26,21 @@ class DatabaseService {
     });
   }
 
+  Future<void> addChoresData(Map<String, dynamic> choreData, String choreId) async {
+    await FirebaseFirestore.instance
+        .collection("chores")
+        .doc(choreId)
+        .set(choreData)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
   getFeedData(houseId) async {
-    return await FirebaseFirestore.instance.collection("feed").where('houseId', isEqualTo: houseId).snapshots();
-    QuerySnapshot response2 = FirebaseFirestore.instance.collection("user").snapshots() as QuerySnapshot<Object?>;
+    return await FirebaseFirestore.instance.collection("feed").where(
+        'houseId', isEqualTo: houseId).snapshots();
+    QuerySnapshot response2 = FirebaseFirestore.instance.collection("user")
+        .snapshots() as QuerySnapshot<Object?>;
   }
 
   Future<void> addUserData(Map<String, dynamic> userData, String userId) async {
@@ -40,22 +53,31 @@ class DatabaseService {
     });
   }
 
-
   updateHouseUsers(houseId, username) async {
     FirebaseFirestore.instance
         .collection("house")
         .doc(houseId)
         .update({"users": FieldValue.arrayUnion([username])})
-        .whenComplete(() async{
-          print("name added to house");
-        }).catchError((e) => print(e));
+        .whenComplete(() async {
+      print("name added to house");
+    }).catchError((e) => print(e));
   }
 
   getUid(username) async {
-    final QuerySnapshot qSnap = await FirebaseFirestore.instance.collection('user').where('name', isEqualTo: username).get();
+    final QuerySnapshot qSnap = await FirebaseFirestore.instance.collection(
+        'user').where('name', isEqualTo: username).get();
     final allData = qSnap.docs.map((doc) => doc.data()).toList();
     var userDetails = allData[0] as Map;
     String userId = userDetails['userId'];
     return userId;
+  }
+
+  getHouseUsers(houseId) async {
+    return await FirebaseFirestore.instance.collection("house").where(
+        'houseId', isEqualTo: houseId).snapshots();
+    // return await FirebaseFirestore.instance
+    //     .collection("house")
+    //     .doc(houseId)
+    //     .snapshots();
   }
 }

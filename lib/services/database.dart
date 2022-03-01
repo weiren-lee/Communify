@@ -43,6 +43,10 @@ class DatabaseService {
         .snapshots() as QuerySnapshot<Object?>;
   }
 
+  getChoresData(houseId) async {
+    return await FirebaseFirestore.instance.collection("chores").where('houseId', isEqualTo: houseId).snapshots();
+  }
+
   Future<void> addUserData(Map<String, dynamic> userData, String userId) async {
     await FirebaseFirestore.instance
         .collection("user")

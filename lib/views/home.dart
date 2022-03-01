@@ -35,13 +35,13 @@ class _HomeState extends State<Home> {
               itemBuilder: (context, index) {
                 return FeedTile(
                   imgUrl:
-                    snapshot.data.docs[index].data()['feedImageUrl'],
+                  snapshot.data.docs[index].data()['feedImageUrl'],
                   desc:
-                    snapshot.data.docs[index].data()['feedDescription'],
+                  snapshot.data.docs[index].data()['feedDescription'],
                   name:
-                    snapshot.data.docs[index].data()['name'],
+                  snapshot.data.docs[index].data()['name'],
                   datetime:
-                    snapshot.data.docs[index].data()['datetime'],
+                  snapshot.data.docs[index].data()['datetime'],
                 );
               });
         },
@@ -83,22 +83,22 @@ class FeedTile extends StatelessWidget {
   late final String datetime;
   FeedTile({required this.imgUrl, required this.desc, required this.name, required this.datetime});
 
-  String currentDateTime = DateTime.now().toString();
+  final String currentDateTime = DateTime.now().toString();
 
   @override
   Widget build(BuildContext context) {
     var printDateTime = (currentDateTime.substring(0,4) == datetime.substring(0,4)) ?
-                          (currentDateTime.substring(5,7) == datetime.substring(5,7)) ? 
-                            (currentDateTime.substring(8,10) == datetime.substring(8,10)) ? 
-                              (currentDateTime.substring(11,13) == datetime.substring(11,13)) ? 
-                                (currentDateTime.substring(14,16) == datetime.substring(14,16)) ?
-                                  (currentDateTime.substring(17,19) == datetime.substring(17,19)) ? 'just posted'
-                                      : 'a few seconds ago'
-                                    : (int.parse(currentDateTime.substring(14,16)) - int.parse(datetime.substring(14,16))).toString() == '1' ? (int.parse(currentDateTime.substring(14,16)) - int.parse(datetime.substring(14,16))).toString() + ' min ago ': (int.parse(currentDateTime.substring(14,16)) - int.parse(datetime.substring(14,16))).toString()+' mins ago '
-                                  : (int.parse(currentDateTime.substring(11,13)) - int.parse(datetime.substring(11,13))).toString() == '1' ? (int.parse(currentDateTime.substring(11,13)) - int.parse(datetime.substring(11,13))).toString() + ' hour ago ': (int.parse(currentDateTime.substring(11,13)) - int.parse(datetime.substring(11,13))).toString()+' hours ago '
-                                : (int.parse(currentDateTime.substring(8,10)) - int.parse(datetime.substring(8,10))).toString() == '1' ? (int.parse(currentDateTime.substring(8,10)) - int.parse(datetime.substring(8,10))).toString() + ' day ago ': (int.parse(currentDateTime.substring(8,10)) - int.parse(datetime.substring(8,10))).toString()+' days ago '
-                              : (int.parse(currentDateTime.substring(5,7)) - int.parse(datetime.substring(5,7))).toString() == '1' ? (int.parse(currentDateTime.substring(5,7)) - int.parse(datetime.substring(5,7))).toString() + ' month ago ': (int.parse(currentDateTime.substring(5,7)) - int.parse(datetime.substring(5,7))).toString()+' months ago '
-                            : (int.parse(currentDateTime.substring(0,4)) - int.parse(datetime.substring(0,4))).toString() == '1' ? (int.parse(currentDateTime.substring(0,4)) - int.parse(datetime.substring(0,4))).toString() + ' year ago ': (int.parse(currentDateTime.substring(0,4)) - int.parse(datetime.substring(0,4))).toString()+' years ago ';
+    (currentDateTime.substring(5,7) == datetime.substring(5,7)) ?
+    (currentDateTime.substring(8,10) == datetime.substring(8,10)) ?
+    (currentDateTime.substring(11,13) == datetime.substring(11,13)) ?
+    (currentDateTime.substring(14,16) == datetime.substring(14,16)) ?
+    (currentDateTime.substring(17,19) == datetime.substring(17,19)) ? 'just posted'
+        : 'a few seconds ago'
+        : (int.parse(currentDateTime.substring(14,16)) - int.parse(datetime.substring(14,16))).toString() == '1' ? (int.parse(currentDateTime.substring(14,16)) - int.parse(datetime.substring(14,16))).toString() + ' min ago ': (int.parse(currentDateTime.substring(14,16)) - int.parse(datetime.substring(14,16))).toString()+' mins ago '
+        : (int.parse(currentDateTime.substring(11,13)) - int.parse(datetime.substring(11,13))).toString() == '1' ? (int.parse(currentDateTime.substring(11,13)) - int.parse(datetime.substring(11,13))).toString() + ' hour ago ': (int.parse(currentDateTime.substring(11,13)) - int.parse(datetime.substring(11,13))).toString()+' hours ago '
+        : (int.parse(currentDateTime.substring(8,10)) - int.parse(datetime.substring(8,10))).toString() == '1' ? (int.parse(currentDateTime.substring(8,10)) - int.parse(datetime.substring(8,10))).toString() + ' day ago ': (int.parse(currentDateTime.substring(8,10)) - int.parse(datetime.substring(8,10))).toString()+' days ago '
+        : (int.parse(currentDateTime.substring(5,7)) - int.parse(datetime.substring(5,7))).toString() == '1' ? (int.parse(currentDateTime.substring(5,7)) - int.parse(datetime.substring(5,7))).toString() + ' month ago ': (int.parse(currentDateTime.substring(5,7)) - int.parse(datetime.substring(5,7))).toString()+' months ago '
+        : (int.parse(currentDateTime.substring(0,4)) - int.parse(datetime.substring(0,4))).toString() == '1' ? (int.parse(currentDateTime.substring(0,4)) - int.parse(datetime.substring(0,4))).toString() + ' year ago ': (int.parse(currentDateTime.substring(0,4)) - int.parse(datetime.substring(0,4))).toString()+' years ago ';
 
     return Container(
       decoration: BoxDecoration(
@@ -127,7 +127,7 @@ class FeedTile extends StatelessWidget {
                           Text(name, style: const TextStyle(fontWeight: FontWeight.w600),),
                           Row(children: [
                             Text(printDateTime,
-                            style: TextStyle(color: Colors.grey[600], fontSize: 12.0,)),
+                                style: TextStyle(color: Colors.grey[600], fontSize: 12.0,)),
                             Icon(Icons.public, color: Colors.grey[600], size:12.0,)
                           ],)
                         ],

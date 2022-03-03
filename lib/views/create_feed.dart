@@ -1,9 +1,7 @@
 import 'dart:io';
-
 import 'package:communify/services/firebase_api.dart';
 import 'package:path/path.dart';
 import 'package:communify/services/auth.dart';
-import 'package:communify/views/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:communify/services/database.dart';
@@ -14,7 +12,6 @@ import 'package:image_picker/image_picker.dart';
 
 class CreateFeed extends StatefulWidget {
   final String houseId;
-
   const CreateFeed({Key? key, required this.houseId}) : super(key: key);
 
   @override
@@ -82,11 +79,9 @@ class _CreateFeedState extends State<CreateFeed> {
           systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: _isLoading
-          ? Container(
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            )
+          ? const Center(
+            child: CircularProgressIndicator(),
+          )
           : Form(
               key: _formKey,
               child: Container(
@@ -158,23 +153,5 @@ class _CreateFeedState extends State<CreateFeed> {
       print('Failed to pick image: $e');
     }
   }
-  //
-  // Widget buildUploadStatus(UploadTask task) => StreamBuilder<TaskSnapshot>(
-  //   stream: task.snapshotEvents,
-  //   builder: (context, snapshot) {
-  //     if (snapshot.hasData) {
-  //       final snap = snapshot.data!;
-  //       final progress = snap.bytesTransferred / snap.totalBytes;
-  //       final percentage = (progress * 100).toStringAsFixed(2);
-  //
-  //       return Text(
-  //         '$percentage %',
-  //         style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-  //       );
-  //     } else {
-  //       return Container();
-  //     }
-  //   },
-  // );
 }
 

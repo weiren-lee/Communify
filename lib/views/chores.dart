@@ -1,13 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:communify/views/create_chores.dart';
-import 'package:communify/widgets/profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:communify/services/database.dart';
-import 'package:communify/views/create_feed.dart';
 import 'package:communify/services/auth.dart';
 
 class Chores extends StatefulWidget {
-
   final String houseId;
   const Chores({Key? key, required this.houseId}) : super(key: key);
 
@@ -16,20 +12,22 @@ class Chores extends StatefulWidget {
 }
 
 class _ChoresState extends State<Chores> {
-  AuthService authService = AuthService();
-
   late Stream fileStream;
+  AuthService authService = AuthService();
   DatabaseService databaseService = DatabaseService();
 
   Widget choresList() {
     return Column(
       children: [
-        const Text('Chores', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        const Center(child: Text('Chores', textAlign: TextAlign.center, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
         StreamBuilder(
           stream: fileStream,
           builder: (context, AsyncSnapshot snapshot) {
-            return snapshot.data == null
-                ? const Text('No Data Available')
+            return snapshot.data.docs.length == 0
+                ? const Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Text('No chores remaining :D'),
+                )
                 : Column(
               children: [
                 Container(
@@ -40,6 +38,7 @@ class _ChoresState extends State<Chores> {
                       itemCount: snapshot.data.docs.length,
                       itemBuilder: (context, index) {
                         return ChoresTiles(
+                          choreId: snapshot.data.docs[index].data()['choreId'],
                           chores: snapshot.data.docs[index].data()['choreName'],
                           assignedUser: snapshot.data.docs[index].data()['assignedUser'],
                         );
@@ -83,7 +82,8 @@ class _ChoresState extends State<Chores> {
 class ChoresTiles extends StatefulWidget {
   late final String chores;
   late final String assignedUser;
-  ChoresTiles({required this.chores, required this.assignedUser});
+  late final String choreId;
+  ChoresTiles({required this.chores, required this.assignedUser, required this.choreId});
 
   @override
   State<ChoresTiles> createState() => _ChoresTilesState();
@@ -94,8 +94,35 @@ class _ChoresTilesState extends State<ChoresTiles> {
 
   @override
   void initState() {
-    isSelected = [true, false];
+    isSelected = [false,true];
     super.initState();
+  }
+
+  DatabaseService databaseService = DatabaseService();
+  bool _isLoading = false;
+
+  updateCompletedStatus(choreId, isSelected) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    await databaseService.updateCompletionStatus(choreId, isSelected).then((value) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+  }
+
+  getStatus(choreId) async {
+    await databaseService.getChoresStatus(choreId).then((value) {
+      bool toggle;
+      toggle = (value['status'] == 'completed') ? true : false;
+      return toggle;
+    });
+  }
+
+  deleteChores(choreId) async {
+    await databaseService.deleteChores(choreId);
   }
 
   @override
@@ -120,16 +147,28 @@ class _ChoresTilesState extends State<ChoresTiles> {
                     blurRadius: 7,
                     offset: const Offset(0, 3), // changes position of shadow
                   ),
-                ],                ),
+                ],
+              ),
             ),
             Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text(
-                    'Task: ' + widget.chores,
-                    style: const TextStyle(fontSize: 20),
-                  ),
+                      Chip(
+                        shape: RoundedRectangleBorder(
+                          side: const BorderSide(color: Colors.grey, width: 1),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        backgroundColor: Colors.transparent,
+                        label: Text(
+                          widget.chores,
+                          style: const TextStyle(fontSize: 20),
+                          textAlign: TextAlign.center,
+                        ),
+                        onDeleted: () async {
+                          deleteChores(widget.choreId);
+                        },
+                      ),
                   SizedBox(
                     width: 200,
                     child: Text(
@@ -173,8 +212,12 @@ class _ChoresTilesState extends State<ChoresTiles> {
                           setState(() {
                             for (int i=0; i < isSelected.length; i++) {
                               isSelected[i] = i == index;
+                              if (isSelected[0] == true) {
+                                deleteChores(widget.choreId);
+                              }
                             }
                           });
+                          updateCompletedStatus(widget.choreId, isSelected[0] == true? 'completed' : 'incomplete');
                         },
                         isSelected: isSelected,
                       ),

@@ -1,17 +1,10 @@
 import 'package:communify/services/auth.dart';
 import 'package:communify/views/chores.dart';
-import 'package:communify/views/create_chores.dart';
 import 'package:communify/views/home.dart';
 import 'package:communify/views/signin.dart';
 import 'package:communify/widgets/widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-// class houseIdClass {
-//   final String houseId;
-//   const houseIdClass(this.houseId);
-// }
 
 class RouterPage extends StatefulWidget {
   final String houseId;

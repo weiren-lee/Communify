@@ -47,6 +47,14 @@ class DatabaseService {
     return await FirebaseFirestore.instance.collection("chores").where('houseId', isEqualTo: houseId).snapshots();
   }
 
+  getChoresStatus(choreId) async {
+    return await FirebaseFirestore.instance.collection('chores').doc(choreId).get();
+  }
+
+  deleteChores(choreId) async {
+    await FirebaseFirestore.instance.collection('chores').doc(choreId).delete();
+  }
+
   Future<void> addUserData(Map<String, dynamic> userData, String userId) async {
     await FirebaseFirestore.instance
         .collection("user")
@@ -64,6 +72,16 @@ class DatabaseService {
         .update({"users": FieldValue.arrayUnion([username])})
         .whenComplete(() async {
       print("name added to house");
+    }).catchError((e) => print(e));
+  }
+
+  updateCompletionStatus(choreId, isSelected) async {
+    FirebaseFirestore.instance
+        .collection("chores")
+        .doc(choreId)
+        .update({"status": isSelected})
+        .whenComplete(() async {
+      print("completed? set to" + isSelected);
     }).catchError((e) => print(e));
   }
 

@@ -7,8 +7,6 @@ import 'package:flutter/services.dart';
 
 class CreateChores extends StatefulWidget {
   final dynamic houseId;
-
-
   const CreateChores({Key? key, required this.houseId}) : super(key: key);
 
   @override
@@ -75,8 +73,11 @@ class _CreateChoresState extends State<CreateChores> {
               children: [
                 const Text("Create a chore!"),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.fromLTRB(20.0,0,20.0,10),
                   child: TextFormField(
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(20),
+                    ],
                     validator: (val) =>
                     val!.isEmpty ? "Enter your thoughts here" : null,
                     decoration: const InputDecoration(
@@ -88,7 +89,7 @@ class _CreateChoresState extends State<CreateChores> {
                   ),
                 ),
                 const Text("Randomly assigning to..."),
-                Expanded(
+                Flexible(
                     child: ListView.builder(
                       itemCount: names.length,
                       itemBuilder: (context, index) {
@@ -105,7 +106,7 @@ class _CreateChoresState extends State<CreateChores> {
                       },
                     )),
                 Expanded(child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.fromLTRB(20.0,0,20.0,20.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.stretch,

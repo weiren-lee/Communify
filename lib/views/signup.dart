@@ -11,7 +11,6 @@ import 'home.dart';
 import 'package:random_string/random_string.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
@@ -31,18 +30,21 @@ class _SignUpState extends State<SignUp> {
       setState(() {
         _isLoading = true;
       });
-      authService.signUpWithEmailAndPassword(email, password, name).then((value) {
+      authService
+          .signUpWithEmailAndPassword(email, password, name)
+          .then((value) {
         if (value != null) {
           setState(() {
             _isLoading = false;
           });
           HelperFunctions.saveUserLoggedInDetails(isLoggedin: true);
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => const chooseHouse()));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const ChooseHouse()));
         }
       });
       uid = randomAlphaNumeric(16);
-      final QuerySnapshot qSnap = await FirebaseFirestore.instance.collection('user').get();
+      final QuerySnapshot qSnap =
+          await FirebaseFirestore.instance.collection('user').get();
       final int userCount = qSnap.docs.length;
       var userIdInt = userCount + 1;
 
@@ -52,12 +54,13 @@ class _SignUpState extends State<SignUp> {
         "userId": userIdInt.toString(),
       };
 
-      await databaseService.addUserData(userMap, userIdInt.toString()).then((value) {
+      await databaseService
+          .addUserData(userMap, userIdInt.toString())
+          .then((value) {
         setState(() {
           _isLoading = false;
         });
       });
-
     }
   }
 
@@ -70,7 +73,7 @@ class _SignUpState extends State<SignUp> {
         elevation: 0.0,
         systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset: false,
       body: _isLoading
           ? Container(
               child: const Center(

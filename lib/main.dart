@@ -1,9 +1,7 @@
 import 'package:communify/config/palette.dart';
 import 'package:communify/views/choose_house.dart';
-import 'package:communify/views/router_page.dart';
 import 'package:flutter/material.dart';
 import 'package:communify/helper/functions.dart';
-import 'package:communify/views/home.dart';
 import 'package:communify/views/signin.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -47,7 +45,7 @@ class _MyAppState extends State<MyApp> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         scaffoldBackgroundColor: Palette.scaffold,
       ),
-      home: (_isLoggedin) ? const chooseHouse() : const SignIn(),
+      home: (_isLoggedin) ? const ChooseHouse() : const SignIn(),
 
     );
   }

@@ -24,12 +24,7 @@ class _CreateChoresState extends State<CreateChores> {
   List<String> names = [];
 
   createChoreOnline() async {
-    // final QuerySnapshot qSnap =
-    // await FirebaseFirestore.instance.collection('chores').get();
-    // final int choresCount = qSnap.docs.length;
-    // var choreIdInt = choresCount + 1;
     var choreId = randomAlphaNumeric(16);
-
     var random = Random();
     var assignedUser = names[random.nextInt(names.length)];
 
@@ -46,9 +41,7 @@ class _CreateChoresState extends State<CreateChores> {
         "houseId": widget.houseId,
       };
 
-      await databaseService
-          .addChoresData(choreMap, choreId)
-          .then((value) {
+      await databaseService.addChoresData(choreMap, choreId).then((value) {
         setState(() {
           _isLoading = false;
         });
@@ -95,7 +88,6 @@ class _CreateChoresState extends State<CreateChores> {
                   const Text("Randomly assigning to..."),
                   Expanded(
                       child: ListView.builder(
-
                     itemCount: names.length,
                     itemBuilder: (context, index) {
                       return Dismissible(

@@ -1,20 +1,18 @@
 import 'package:communify/views/create_house.dart';
 import 'package:communify/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:communify/services/database.dart';
-import 'package:flutter/foundation.dart';
 import 'house_tile.dart';
 
-class chooseHouse extends StatefulWidget {
-  const chooseHouse({Key? key}) : super(key: key);
+class ChooseHouse extends StatefulWidget {
+  const ChooseHouse({Key? key}) : super(key: key);
 
   @override
-  _chooseHouseState createState() => _chooseHouseState();
+  _ChooseHouseState createState() => _ChooseHouseState();
 }
 
-class _chooseHouseState extends State<chooseHouse> {
+class _ChooseHouseState extends State<ChooseHouse> {
   late Stream houseStream;
   DatabaseService databaseService = DatabaseService();
 
@@ -62,7 +60,7 @@ class _chooseHouseState extends State<chooseHouse> {
         child: const Icon(Icons.add),
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => createHouse()));
+              MaterialPageRoute(builder: (context) => const CreateHouse()));
         },
       ),
     );

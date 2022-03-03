@@ -32,8 +32,8 @@ class _SignInState extends State<SignIn> {
             _isLoading = false;
           });
           HelperFunctions.saveUserLoggedInDetails(isLoggedin: true);
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => const chooseHouse()));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const ChooseHouse()));
         }
       });
     }
@@ -49,11 +49,11 @@ class _SignInState extends State<SignIn> {
         elevation: 0.0,
         systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset: false,
       body: _isLoading
           ? const Center(
-            child: CircularProgressIndicator(),
-          )
+              child: CircularProgressIndicator(),
+            )
           : Form(
               key: _formKey,
               child: Container(

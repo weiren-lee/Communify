@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class createHouse extends StatefulWidget {
-  const createHouse({Key? key}) : super(key: key);
+class CreateHouse extends StatefulWidget {
+  const CreateHouse({Key? key}) : super(key: key);
 
   @override
-  _createHouseState createState() => _createHouseState();
+  _CreateHouseState createState() => _CreateHouseState();
 }
 
-class _createHouseState extends State<createHouse> {
+class _CreateHouseState extends State<CreateHouse> {
   final _formKey = GlobalKey<FormState>();
   late String houseId, houseName, housePassword;
   DatabaseService databaseService = DatabaseService();
@@ -20,7 +20,8 @@ class _createHouseState extends State<createHouse> {
   bool _isLoading = false;
 
   createHouseOnline() async {
-    final QuerySnapshot qSnap = await FirebaseFirestore.instance.collection('house').get();
+    final QuerySnapshot qSnap =
+        await FirebaseFirestore.instance.collection('house').get();
     final int houseCount = qSnap.docs.length;
     var houseIdInt = houseCount + 1;
 
@@ -35,7 +36,9 @@ class _createHouseState extends State<createHouse> {
         "housePassword": housePassword,
       };
 
-      await databaseService.addHouseData(houseMap, houseIdInt.toString()).then((value) {
+      await databaseService
+          .addHouseData(houseMap, houseIdInt.toString())
+          .then((value) {
         setState(() {
           _isLoading = false;
         });
@@ -55,50 +58,56 @@ class _createHouseState extends State<createHouse> {
         ),
         body: _isLoading
             ? const Center(
-              child: CircularProgressIndicator(),
-            )
+                child: CircularProgressIndicator(),
+              )
             : Form(
-          key: _formKey,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              children: [
-                const Text('Create your house now!', style: TextStyle(fontSize: 20),),
-                const SizedBox(height: 15,),
-                TextFormField(
-                  validator: (val) =>
-                  val!.isEmpty ? "Enter a valid House Name!" : null,
-                  decoration: const InputDecoration(
-                    hintText: "House Name",
+                key: _formKey,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Create your house now!',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      TextFormField(
+                        validator: (val) =>
+                            val!.isEmpty ? "Enter a valid House Name!" : null,
+                        decoration: const InputDecoration(
+                          hintText: "House Name",
+                        ),
+                        onChanged: (val) {
+                          houseName = val;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      TextFormField(
+                        validator: (val) =>
+                            val!.isEmpty ? "Enter a valid password!" : null,
+                        decoration: const InputDecoration(
+                          hintText: "House Password",
+                        ),
+                        onChanged: (val) {
+                          housePassword = val;
+                        },
+                      ),
+                      const Spacer(),
+                      GestureDetector(
+                          onTap: () {
+                            createHouseOnline();
+                          },
+                          child: blueButton(context, "Create your House")),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                    ],
                   ),
-                  onChanged: (val) {
-                    houseName = val;
-                  },
                 ),
-                const SizedBox(height: 15,),
-                TextFormField(
-                  validator: (val) =>
-                  val!.isEmpty ? "Enter a valid password!" : null,
-                  decoration: const InputDecoration(
-                    hintText: "House Password",
-                  ),
-                  onChanged: (val) {
-                    housePassword = val;
-                  },
-                ),
-                const Spacer(),
-                GestureDetector(
-                    onTap: () {
-                      createHouseOnline();
-                    },
-                    child: blueButton(context, "Create your House")),
-                const SizedBox(
-                  height: 40,
-                ),
-              ],
-            ),
-          ),
-        )
-    );
+              ));
   }
 }

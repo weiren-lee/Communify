@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 class Home extends StatefulWidget {
 
   final String houseId;
+
   const Home({Key? key, required this.houseId}) : super(key: key);
 
 
@@ -52,7 +53,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    databaseService.getFeedData(widget.houseId).then((val){
+    databaseService.getFeedData(widget.houseId).then((val) {
       setState(() {
         fileStream = val;
       });
@@ -68,7 +69,8 @@ class _HomeState extends State<Home> {
         child: const Icon(Icons.add),
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CreateFeed(houseId: widget.houseId)));
+              MaterialPageRoute(
+                  builder: (context) => CreateFeed(houseId: widget.houseId)));
         },
       ),
 
@@ -81,24 +83,53 @@ class FeedTile extends StatelessWidget {
   late final String desc;
   late final String name;
   late final String datetime;
-  FeedTile({required this.imgUrl, required this.desc, required this.name, required this.datetime});
+
+  FeedTile(
+      {required this.imgUrl, required this.desc, required this.name, required this.datetime});
 
   final String currentDateTime = DateTime.now().toString();
 
   @override
   Widget build(BuildContext context) {
-    var printDateTime = (currentDateTime.substring(0,4) == datetime.substring(0,4)) ?
-    (currentDateTime.substring(5,7) == datetime.substring(5,7)) ?
-    (currentDateTime.substring(8,10) == datetime.substring(8,10)) ?
-    (currentDateTime.substring(11,13) == datetime.substring(11,13)) ?
-    (currentDateTime.substring(14,16) == datetime.substring(14,16)) ?
-    (currentDateTime.substring(17,19) == datetime.substring(17,19)) ? 'just posted'
+    var printDateTime = (currentDateTime.substring(0, 4) ==
+        datetime.substring(0, 4)) ?
+    (currentDateTime.substring(5, 7) == datetime.substring(5, 7)) ?
+    (currentDateTime.substring(8, 10) == datetime.substring(8, 10)) ?
+    (currentDateTime.substring(11, 13) == datetime.substring(11, 13)) ?
+    (currentDateTime.substring(14, 16) == datetime.substring(14, 16)) ?
+    (currentDateTime.substring(17, 19) == datetime.substring(17, 19))
+        ? 'just posted'
         : 'a few seconds ago'
-        : (int.parse(currentDateTime.substring(14,16)) - int.parse(datetime.substring(14,16))).toString() == '1' ? (int.parse(currentDateTime.substring(14,16)) - int.parse(datetime.substring(14,16))).toString() + ' min ago ': (int.parse(currentDateTime.substring(14,16)) - int.parse(datetime.substring(14,16))).toString()+' mins ago '
-        : (int.parse(currentDateTime.substring(11,13)) - int.parse(datetime.substring(11,13))).toString() == '1' ? (int.parse(currentDateTime.substring(11,13)) - int.parse(datetime.substring(11,13))).toString() + ' hour ago ': (int.parse(currentDateTime.substring(11,13)) - int.parse(datetime.substring(11,13))).toString()+' hours ago '
-        : (int.parse(currentDateTime.substring(8,10)) - int.parse(datetime.substring(8,10))).toString() == '1' ? (int.parse(currentDateTime.substring(8,10)) - int.parse(datetime.substring(8,10))).toString() + ' day ago ': (int.parse(currentDateTime.substring(8,10)) - int.parse(datetime.substring(8,10))).toString()+' days ago '
-        : (int.parse(currentDateTime.substring(5,7)) - int.parse(datetime.substring(5,7))).toString() == '1' ? (int.parse(currentDateTime.substring(5,7)) - int.parse(datetime.substring(5,7))).toString() + ' month ago ': (int.parse(currentDateTime.substring(5,7)) - int.parse(datetime.substring(5,7))).toString()+' months ago '
-        : (int.parse(currentDateTime.substring(0,4)) - int.parse(datetime.substring(0,4))).toString() == '1' ? (int.parse(currentDateTime.substring(0,4)) - int.parse(datetime.substring(0,4))).toString() + ' year ago ': (int.parse(currentDateTime.substring(0,4)) - int.parse(datetime.substring(0,4))).toString()+' years ago ';
+        : (int.parse(currentDateTime.substring(14, 16)) -
+        int.parse(datetime.substring(14, 16))).toString() == '1' ? (int.parse(
+        currentDateTime.substring(14, 16)) -
+        int.parse(datetime.substring(14, 16))).toString() + ' min ago ' : (int
+        .parse(currentDateTime.substring(14, 16)) -
+        int.parse(datetime.substring(14, 16))).toString() + ' mins ago '
+        : (int.parse(currentDateTime.substring(11, 13)) -
+        int.parse(datetime.substring(11, 13))).toString() == '1' ? (int.parse(
+        currentDateTime.substring(11, 13)) -
+        int.parse(datetime.substring(11, 13))).toString() + ' hour ago ' : (int
+        .parse(currentDateTime.substring(11, 13)) -
+        int.parse(datetime.substring(11, 13))).toString() + ' hours ago '
+        : (int.parse(currentDateTime.substring(8, 10)) -
+        int.parse(datetime.substring(8, 10))).toString() == '1' ? (int.parse(
+        currentDateTime.substring(8, 10)) -
+        int.parse(datetime.substring(8, 10))).toString() + ' day ago ' : (int
+        .parse(currentDateTime.substring(8, 10)) -
+        int.parse(datetime.substring(8, 10))).toString() + ' days ago '
+        : (int.parse(currentDateTime.substring(5, 7)) -
+        int.parse(datetime.substring(5, 7))).toString() == '1' ? (int.parse(
+        currentDateTime.substring(5, 7)) - int.parse(datetime.substring(5, 7)))
+        .toString() + ' month ago ' : (int.parse(
+        currentDateTime.substring(5, 7)) - int.parse(datetime.substring(5, 7)))
+        .toString() + ' months ago '
+        : (int.parse(currentDateTime.substring(0, 4)) -
+        int.parse(datetime.substring(0, 4))).toString() == '1' ? (int.parse(
+        currentDateTime.substring(0, 4)) - int.parse(datetime.substring(0, 4)))
+        .toString() + ' year ago ' : (int.parse(
+        currentDateTime.substring(0, 4)) - int.parse(datetime.substring(0, 4)))
+        .toString() + ' years ago ';
 
     return Container(
       decoration: BoxDecoration(
@@ -118,29 +149,36 @@ class FeedTile extends StatelessWidget {
                 Row(
                   children: [
                     // to link profile pic later
-                    const ProfileAvatar(imageUrl: 'https://i.pinimg.com/originals/65/25/a0/6525a08f1df98a2e3a545fe2ace4be47.jpg'), // change to profile pic
+                    const ProfileAvatar(
+                        imageUrl: 'https://i.pinimg.com/originals/65/25/a0/6525a08f1df98a2e3a545fe2ace4be47.jpg'),
+                    // change to profile pic
                     const SizedBox(width: 8.0,),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(name, style: const TextStyle(fontWeight: FontWeight.w600),),
+                          Text(name, style: const TextStyle(
+                              fontWeight: FontWeight.w600),),
                           Row(children: [
                             Text(printDateTime,
-                                style: TextStyle(color: Colors.grey[600], fontSize: 12.0,)),
-                            Icon(Icons.public, color: Colors.grey[600], size:12.0,)
+                                style: TextStyle(
+                                  color: Colors.grey[600], fontSize: 12.0,)),
+                            Icon(Icons.public, color: Colors.grey[600],
+                              size: 12.0,)
                           ],)
                         ],
                       ),
                     ),
-                    IconButton(onPressed: () => const Text('More'), icon: const Icon(Icons.more_horiz))
+                    IconButton(onPressed: () => const Text('More'),
+                        icon: const Icon(Icons.more_horiz))
                   ],
                 ),
                 // end of post header
                 const SizedBox(height: 3.5,),
                 // post description
                 Text(desc),
-                imgUrl != '' ? const SizedBox.shrink() : const SizedBox(height: 6.0),
+                imgUrl != '' ? const SizedBox.shrink() : const SizedBox(
+                    height: 6.0),
               ],
             ),
           ),

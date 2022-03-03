@@ -24,6 +24,7 @@ class _RouterPageState extends State<RouterPage> {
 
     return Scaffold(
         appBar: AppBar(
+            automaticallyImplyLeading: false,
             title: appBar(context),
             backgroundColor: Colors.transparent,
             elevation: 0.0,

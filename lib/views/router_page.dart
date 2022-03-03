@@ -72,18 +72,18 @@ class _RouterPageState extends State<RouterPage> {
                 backgroundColor: Colors.black,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'fe',
+                icon: Icon(Icons.ballot),
+                label: 'Chores',
                 backgroundColor: Colors.grey,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
+                icon: Icon(Icons.calendar_today),
+                label: 'Calendar',
                 backgroundColor: Colors.black,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Home',
+                icon: Icon(Icons.settings),
+                label: 'Settings',
                 backgroundColor: Colors.grey,
               ),
             ]));

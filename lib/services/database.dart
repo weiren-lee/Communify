@@ -55,8 +55,21 @@ class DatabaseService {
     await FirebaseFirestore.instance.collection('chores').doc(choreId).delete();
   }
 
+  Future<void> addItemNameData(Map<String, dynamic> itemData, String itemId) async {
+    await FirebaseFirestore.instance
+        .collection("items")
+        .doc(itemId)
+        .set(itemData)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+  deleteItemName(itemId) async {
+    await FirebaseFirestore.instance.collection('items').doc(itemId).delete();
+  }
+
   getItemName(houseId) async {
-    return await FirebaseFirestore.instance.collection('items').doc(houseId).get();
+    return await FirebaseFirestore.instance.collection('items').where('houseId', isEqualTo: houseId).snapshots();
   }
 
   Future<void> addUserData(Map<String, dynamic> userData, String userId) async {

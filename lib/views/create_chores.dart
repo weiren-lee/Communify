@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:communify/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+import 'package:random_string/random_string.dart';
 
 class CreateChores extends StatefulWidget {
   final dynamic houseId;
@@ -23,10 +24,11 @@ class _CreateChoresState extends State<CreateChores> {
   List<String> names = [];
 
   createChoreOnline() async {
-    final QuerySnapshot qSnap =
-        await FirebaseFirestore.instance.collection('chores').get();
-    final int choresCount = qSnap.docs.length;
-    var choreIdInt = choresCount + 1;
+    // final QuerySnapshot qSnap =
+    // await FirebaseFirestore.instance.collection('chores').get();
+    // final int choresCount = qSnap.docs.length;
+    // var choreIdInt = choresCount + 1;
+    var choreId = randomAlphaNumeric(16);
 
     var random = Random();
     var assignedUser = names[random.nextInt(names.length)];
@@ -37,7 +39,7 @@ class _CreateChoresState extends State<CreateChores> {
       });
 
       Map<String, String> choreMap = {
-        "choreId": choreIdInt.toString(),
+        "choreId": choreId,
         "choreName": choreName,
         "assignedUser": assignedUser,
         "status": "incomplete",
@@ -45,7 +47,7 @@ class _CreateChoresState extends State<CreateChores> {
       };
 
       await databaseService
-          .addChoresData(choreMap, choreIdInt.toString())
+          .addChoresData(choreMap, choreId)
           .then((value) {
         setState(() {
           _isLoading = false;

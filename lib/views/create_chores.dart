@@ -91,8 +91,9 @@ class _CreateChoresState extends State<CreateChores> {
                     ),
                   ),
                   const Text("Randomly assigning to..."),
-                  Flexible(
+                  Expanded(
                       child: ListView.builder(
+
                     itemCount: names.length,
                     itemBuilder: (context, index) {
                       return Dismissible(
@@ -108,9 +109,9 @@ class _CreateChoresState extends State<CreateChores> {
                       );
                     },
                   )),
-                  Expanded(
+                  Flexible(
                       child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 20.0),
+                    padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 3.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.stretch,

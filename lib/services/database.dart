@@ -55,6 +55,10 @@ class DatabaseService {
     await FirebaseFirestore.instance.collection('chores').doc(choreId).delete();
   }
 
+  getItemName(houseId) async {
+    return await FirebaseFirestore.instance.collection('items').doc(houseId).get();
+  }
+
   Future<void> addUserData(Map<String, dynamic> userData, String userId) async {
     await FirebaseFirestore.instance
         .collection("user")

@@ -14,10 +14,35 @@ class Chores extends StatefulWidget {
 
 class _ChoresState extends State<Chores> {
   late Stream fileStream;
+  // late Stream itemStream;
   AuthService authService = AuthService();
   DatabaseService databaseService = DatabaseService();
-  List<String> fridgeItems = [];
-  TextEditingController fridgeItemController = TextEditingController();
+  List<String> itemName = [];
+  TextEditingController itemController = TextEditingController();
+
+  Future createModal(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Add Items Here"),
+            content: TextField(
+              controller: itemController,
+            ),
+            actions: [
+              MaterialButton(
+                elevation: 5.0,
+                child: const Text('Add'),
+                onPressed: () {
+                  addToList();
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        }
+    );
+  }
 
   Widget choresList() {
     return Column(
@@ -96,11 +121,7 @@ class _ChoresState extends State<Chores> {
               padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              CreateChores(houseId: widget.houseId)));
+                  createModal(context);
                 },
                 child: const Icon(Icons.add),
               ),
@@ -110,7 +131,7 @@ class _ChoresState extends State<Chores> {
         ),
         Flexible(
             child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey),
@@ -125,64 +146,64 @@ class _ChoresState extends State<Chores> {
               ],
             ),
             child: ListView.builder(
-              itemCount: fridgeItems.length,
+              itemCount: itemName.length,
               itemBuilder: (context, index) {
                 return Dismissible(
                   key: UniqueKey(),
                   onDismissed: (direction) {
                     setState(() {
-                      fridgeItems.removeAt(index);
+                      itemName.removeAt(index);
                     });
                   },
                   child: ListTile(
-                    title: Text(fridgeItems[index]),
+                    title: Text(itemName[index]),
                   ),
                 );
               },
             ),
           ),
         )),
-        Flexible(
-            child: Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Text(
-                'Add new item',
-                style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: fridgeItemController,
-                      decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.only(top: 10, bottom: 10),
-                        isDense: true,
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        addToList();
-                      },
-                      child: const Text("Add"))
-                ],
-              ),
-            ],
-          ),
-        )),
+        // Flexible(
+        //     child: Padding(
+        //   padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 20.0),
+        //   child: Column(
+        //     mainAxisAlignment: MainAxisAlignment.end,
+        //     crossAxisAlignment: CrossAxisAlignment.stretch,
+        //     children: [
+        //       const Text(
+        //         'Add new item',
+        //         style:
+        //             TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+        //       ),
+        //       Row(
+        //         children: [
+        //           Expanded(
+        //             child: TextField(
+        //               controller: fridgeItemController,
+        //               decoration: const InputDecoration(
+        //                 contentPadding: EdgeInsets.only(top: 10, bottom: 10),
+        //                 isDense: true,
+        //               ),
+        //             ),
+        //           ),
+        //           ElevatedButton(
+        //               onPressed: () {
+        //                 addToList();
+        //               },
+        //               child: const Text("Add"))
+        //         ],
+        //       ),
+        //     ],
+        //   ),
+        // )),
       ],
     );
   }
 
   void addToList() {
-    if (fridgeItemController.text.isNotEmpty) {
+    if (itemController.text.isNotEmpty) {
       setState(() {
-        fridgeItems.add(fridgeItemController.text);
+        itemName.add(itemController.text);
       });
     }
   }
@@ -194,6 +215,12 @@ class _ChoresState extends State<Chores> {
         fileStream = val;
       });
     });
+    // databaseService.getItemName(widget.houseId).then((val) {
+    //   setState(() {
+    //     itemStream = val;
+    //   });
+    // });
+
     super.initState();
   }
 

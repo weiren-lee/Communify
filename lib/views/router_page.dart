@@ -37,43 +37,55 @@ class _RouterPageState extends State<RouterPage> {
                         MaterialPageRoute(
                             builder: (context) => const SignIn()));
                   },
-                  child: logoutButton(context)
-              )]),
-      body: IndexedStack(
-        index: currentIndex,
-        children: [
-          Home(houseId: widget.houseId),
-          Chores(houseId: widget.houseId,),
-          Center(child: Text('Calendar', style: TextStyle(fontSize: 50),)),
-          Center(child: Text('Settings', style: TextStyle(fontSize: 50),)),
-        ],
-      ),
+                  child: logoutButton(context))
+            ]),
+        body: IndexedStack(
+          index: currentIndex,
+          children: [
+            Home(houseId: widget.houseId),
+            Chores(
+              houseId: widget.houseId,
+            ),
+            const Center(
+                child: Text(
+              'Calendar',
+              style: TextStyle(fontSize: 50),
+            )),
+            const Center(
+                child: Text(
+              'Settings',
+              style: TextStyle(fontSize: 50),
+            )),
+          ],
+        ),
         bottomNavigationBar: BottomNavigationBar(
-          // type: BottomNavigationBarType.fixed,
-          // backgroundColor: Colors.blue,
-          // selectedItemColor: Colors.white,
+            // type: BottomNavigationBarType.fixed,
+            // backgroundColor: Colors.blue,
+            // selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white70,
             currentIndex: currentIndex,
-            onTap: (index) => setState(() =>currentIndex = index),
-
+            onTap: (index) => setState(() => currentIndex = index),
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label:'Feed',
-                backgroundColor: Colors.black,),
+                label: 'Feed',
+                backgroundColor: Colors.black,
+              ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label:'fe',
-                backgroundColor: Colors.grey,),
+                label: 'fe',
+                backgroundColor: Colors.grey,
+              ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label:'Home',
-                backgroundColor: Colors.black,),
+                label: 'Home',
+                backgroundColor: Colors.black,
+              ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),
-                label:'Home',
-                backgroundColor: Colors.grey,),
-            ])
-    );
+                label: 'Home',
+                backgroundColor: Colors.grey,
+              ),
+            ]));
   }
 }

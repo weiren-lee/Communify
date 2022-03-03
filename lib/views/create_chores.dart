@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 
 class CreateChores extends StatefulWidget {
   final dynamic houseId;
+
   const CreateChores({Key? key, required this.houseId}) : super(key: key);
 
   @override
@@ -22,7 +23,8 @@ class _CreateChoresState extends State<CreateChores> {
   List<String> names = [];
 
   createChoreOnline() async {
-    final QuerySnapshot qSnap = await FirebaseFirestore.instance.collection('chores').get();
+    final QuerySnapshot qSnap =
+        await FirebaseFirestore.instance.collection('chores').get();
     final int choresCount = qSnap.docs.length;
     var choreIdInt = choresCount + 1;
 
@@ -42,10 +44,11 @@ class _CreateChoresState extends State<CreateChores> {
         "houseId": widget.houseId,
       };
 
-      await databaseService.addChoresData(choreMap, choreIdInt.toString()).then((value) {
+      await databaseService
+          .addChoresData(choreMap, choreIdInt.toString())
+          .then((value) {
         setState(() {
           _isLoading = false;
-
         });
       });
     }
@@ -65,90 +68,89 @@ class _CreateChoresState extends State<CreateChores> {
         ),
         body: _isLoading
             ? const Center(
-              child: CircularProgressIndicator(),
-            )
+                child: CircularProgressIndicator(),
+              )
             : Form(
-          key: _formKey,
-          child: Column(
-              children: [
-                const Text("Create a chore!"),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20.0,0,20.0,10),
-                  child: TextFormField(
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(20),
-                    ],
-                    validator: (val) =>
-                    val!.isEmpty ? "Enter your thoughts here" : null,
-                    decoration: const InputDecoration(
-                      hintText: "Create a chore...",
-                    ),
-                    onChanged: (val) {
-                      choreName = val;
-                    },
-                  ),
-                ),
-                const Text("Randomly assigning to..."),
-                Flexible(
-                    child: ListView.builder(
-                      itemCount: names.length,
-                      itemBuilder: (context, index) {
-                        return Dismissible(
-                          key: UniqueKey(),
-                          onDismissed: (direction) {
-                            setState(() {
-                              names.removeAt(index);
-                            });},
-                          child: ListTile(
-                            title: Text(names[index]),
-                          ),
-                        );
-                      },
-                    )),
-                Expanded(child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20.0,0,20.0,20.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const Text('Add new name',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600
-                        ),
+                key: _formKey,
+                child: Column(children: [
+                  const Text("Create a chore!"),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 10),
+                    child: TextFormField(
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(20),
+                      ],
+                      validator: (val) =>
+                          val!.isEmpty ? "Enter your thoughts here" : null,
+                      decoration: const InputDecoration(
+                        hintText: "Create a chore...",
                       ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              controller: nameController,
-                              decoration: const InputDecoration(
-                                contentPadding: EdgeInsets.only(top:10, bottom:10),
-                                isDense: true,
+                      onChanged: (val) {
+                        choreName = val;
+                      },
+                    ),
+                  ),
+                  const Text("Randomly assigning to..."),
+                  Flexible(
+                      child: ListView.builder(
+                    itemCount: names.length,
+                    itemBuilder: (context, index) {
+                      return Dismissible(
+                        key: UniqueKey(),
+                        onDismissed: (direction) {
+                          setState(() {
+                            names.removeAt(index);
+                          });
+                        },
+                        child: ListTile(
+                          title: Text(names[index]),
+                        ),
+                      );
+                    },
+                  )),
+                  Expanded(
+                      child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 20.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const Text(
+                          'Add new name',
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.w600),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: nameController,
+                                decoration: const InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.only(top: 10, bottom: 10),
+                                  isDense: true,
+                                ),
                               ),
                             ),
-                          ),
-                          ElevatedButton(
-                              onPressed: (){
-                                addToList();
-                              },
-                              child: const Text("Add"))
-                        ],
-                      ),
-                      Builder(builder: (context) => ElevatedButton(
-                        child: const Text("Create Chore"),
-                        onPressed: (){
-                          createChoreOnline();
-                        },
-                      )
-                      )
-                    ],
-                  ),
-                )),
-              ]
-          ),
-        )
-    );
+                            ElevatedButton(
+                                onPressed: () {
+                                  addToList();
+                                },
+                                child: const Text("Add"))
+                          ],
+                        ),
+                        Builder(
+                            builder: (context) => ElevatedButton(
+                                  child: const Text("Create Chore"),
+                                  onPressed: () {
+                                    createChoreOnline();
+                                  },
+                                ))
+                      ],
+                    ),
+                  )),
+                ]),
+              ));
   }
 
   void addToList() {
@@ -159,5 +161,3 @@ class _CreateChoresState extends State<CreateChores> {
     }
   }
 }
-
-

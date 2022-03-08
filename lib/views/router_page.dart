@@ -6,6 +6,8 @@ import 'package:communify/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'calendar.dart';
+
 class RouterPage extends StatefulWidget {
   final String houseId;
 
@@ -44,14 +46,8 @@ class _RouterPageState extends State<RouterPage> {
           index: currentIndex,
           children: [
             Home(houseId: widget.houseId),
-            Chores(
-              houseId: widget.houseId,
-            ),
-            const Center(
-                child: Text(
-              'Calendar',
-              style: TextStyle(fontSize: 50),
-            )),
+            Chores(houseId: widget.houseId,),
+            Calendar(houseId: widget.houseId,),
             const Center(
                 child: Text(
               'Settings',

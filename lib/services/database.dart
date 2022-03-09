@@ -130,9 +130,16 @@ class DatabaseService {
         .collection("house")
         .where('houseId', isEqualTo: houseId)
         .snapshots();
-    // return await FirebaseFirestore.instance
-    //     .collection("house")
-    //     .doc(houseId)
-    //     .snapshots();
+  }
+
+  Future<void> addEventData(
+      Map<String, dynamic> eventData, String eventId) async {
+    await FirebaseFirestore.instance
+        .collection("events")
+        .doc(eventId)
+        .set(eventData)
+        .catchError((e) {
+      print(e.toString());
+    });
   }
 }

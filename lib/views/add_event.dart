@@ -7,8 +7,9 @@ import 'package:random_string/random_string.dart';
 
 class AddEvent extends StatefulWidget {
   final DateTime? selectedDate;
+  final String houseId;
 
-  const AddEvent({Key? key, required this.selectedDate}) : super(key: key);
+  const AddEvent({Key? key, required this.selectedDate, required this.houseId}) : super(key: key);
 
   @override
   _AddEventState createState() => _AddEventState();
@@ -40,7 +41,8 @@ class _AddEventState extends State<AddEvent> {
             child: ElevatedButton(
               onPressed: () async {
                 _formKey.currentState?.save();
-                eventDatetime = ((_formKey.currentState!.value['date'] as DateTime).millisecondsSinceEpoch).toString();
+                // eventDatetime = ((_formKey.currentState!.value['date'] as DateTime).millisecondsSinceEpoch).toString();
+                eventDatetime = (_formKey.currentState!.value['date'] as DateTime).toString().substring(0,23);
                 eventId = randomAlphaNumeric(16);
                 Map<String, String> eventMap = {
                   "eventId": eventId,
@@ -48,6 +50,7 @@ class _AddEventState extends State<AddEvent> {
                   "feedImageUrl": eventDetails,
                   "eventDatetime": eventDatetime,
                   "createdBy": authService.getUserName(),
+                  "houseId": widget.houseId,
                 };
                 await databaseService.addEventData(eventMap, eventId);
 

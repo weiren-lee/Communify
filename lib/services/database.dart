@@ -16,6 +16,13 @@ class DatabaseService {
     return await FirebaseFirestore.instance.collection("house").snapshots();
   }
 
+  getEventsData(houseId) async {
+    return await FirebaseFirestore.instance
+        .collection('events')
+        .where('houseId', isEqualTo: houseId)
+        .snapshots();
+  }
+
   Future<void> addData(Map<String, dynamic> feedData, String feedId) async {
     await FirebaseFirestore.instance
         .collection("feed")

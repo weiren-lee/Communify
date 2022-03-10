@@ -69,7 +69,7 @@ class _RouterPageState extends State<RouterPage> {
                 backgroundColor: Colors.black,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.ballot),
+                icon: Icon(Icons.checklist),
                 label: 'Chores',
                 backgroundColor: Colors.grey,
               ),

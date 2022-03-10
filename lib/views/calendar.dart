@@ -146,32 +146,42 @@ class _CalendarState extends State<Calendar> {
                     style: Theme.of(context).textTheme.headline6,
                   ),
                 ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: _selectedEvents.length,
-                  itemBuilder: (context, index) {
-                    // var event = _selectedEvents[index];
-                    return ListTile(
-                      title: Text(snapshot.data.docs[index].data()['eventTitle']),
-                      subtitle: Text(DateFormat("EEEE, dd MMMM, yyyy")
-                          .format(DateTime.parse(snapshot.data.docs[index].data()['eventDatetime']))),
-                      // onTap: () => Navigator.pushNamed(
-                      //     context, AppRoutes.viewEvent,
-                      //     arguments: event),
-                      trailing: IconButton(
-                        icon: Icon(Icons.edit),
-                        onPressed: () =>
-                            {
-                              // Navigator.pushNamed(
-                        //   context,
-                        //   AppRoutes.editEvent,
-                        //   arguments: event,
-                        // ),
-                            }
-                      ),
-                    );
-                  },
+                Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                    itemCount: _selectedEvents.length,
+                    itemBuilder: (context, index) {
+                      // var event = _selectedEvents[index];
+                      return Container(
+                        height: 70,
+                        decoration: BoxDecoration(
+                          color: Colors.blueGrey.shade100,
+                          border: Border.all(color: Colors.blueGrey.shade200),
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        child: ListTile(
+                          title: Text(snapshot.data.docs[index].data()['eventTitle']),
+                          subtitle: Text(DateFormat("EEEE, dd MMMM, yyyy")
+                              .format(DateTime.parse(snapshot.data.docs[index].data()['eventDatetime']))),
+                          // onTap: () => Navigator.pushNamed(
+                          //     context, AppRoutes.viewEvent,
+                          //     arguments: event),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () =>
+                                {
+                                  // Navigator.pushNamed(
+                            //   context,
+                            //   AppRoutes.editEvent,
+                            //   arguments: event,
+                            // ),
+                                }
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
             );

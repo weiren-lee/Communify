@@ -10,7 +10,12 @@ class AddEvent extends StatefulWidget {
   final String houseId;
   final event;
 
-  const AddEvent({Key? key, required this.selectedDate, required this.houseId, required this.event}) : super(key: key);
+  const AddEvent(
+      {Key? key,
+      required this.selectedDate,
+      required this.houseId,
+      required this.event})
+      : super(key: key);
 
   @override
   _AddEventState createState() => _AddEventState();
@@ -48,7 +53,10 @@ class _AddEventState extends State<AddEvent> {
               onPressed: () async {
                 _formKey.currentState?.save();
                 // eventDatetime = ((_formKey.currentState!.value['date'] as DateTime).millisecondsSinceEpoch).toString();
-                eventDatetime = (_formKey.currentState!.value['date'] as DateTime).toString().substring(0,23);
+                eventDatetime =
+                    (_formKey.currentState!.value['date'] as DateTime)
+                        .toString()
+                        .substring(0, 23);
                 eventId = randomAlphaNumeric(16);
                 Map<String, String> eventMap = {
                   "eventId": eventId,
@@ -61,7 +69,7 @@ class _AddEventState extends State<AddEvent> {
                 await databaseService.addEventData(eventMap, eventId);
 
                 Navigator.pop(context);
-                },
+              },
               child: const Text("Save Event"),
             ),
           )
@@ -79,11 +87,11 @@ class _AddEventState extends State<AddEvent> {
                   name: "title",
                   initialValue: widget.event?['eventTitle'],
                   decoration: const InputDecoration(
-                      hintText: "Add Title",
-                      border: InputBorder.none,
-                      // contentPadding: EdgeInsets.only(left: 48.0),
-                      prefixIcon: Icon(Icons.title),
-            ),
+                    hintText: "Add Title",
+                    border: InputBorder.none,
+                    // contentPadding: EdgeInsets.only(left: 48.0),
+                    prefixIcon: Icon(Icons.title),
+                  ),
                   onChanged: (val) {
                     eventTitle = val!;
                   },
@@ -105,8 +113,7 @@ class _AddEventState extends State<AddEvent> {
                 const Divider(),
                 FormBuilderDateTimePicker(
                   name: "date",
-                  initialValue: widget.selectedDate ??
-                      eventDate,
+                  initialValue: widget.selectedDate ?? eventDate,
                   initialDate: DateTime.now(),
                   fieldHintText: "Add Date",
                   initialDatePickerMode: DatePickerMode.day,

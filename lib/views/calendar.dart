@@ -14,12 +14,12 @@ class Calendar extends StatefulWidget {
   final String houseId;
 
   const Calendar({Key? key, required this.houseId}) : super(key: key);
+
   @override
   _CalendarState createState() => _CalendarState();
 }
 
 class _CalendarState extends State<Calendar> {
-
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
@@ -48,13 +48,12 @@ class _CalendarState extends State<Calendar> {
       // print(_groupedEvents[hashCode]);
       // print(_groupedEvents[(int.parse(event['eventDatetime']))]);
       DateTime e = DateTime.parse(event['eventDatetime']);
-      DateTime date = DateTime.utc(e.year,e.month,e.day, 12);
+      DateTime date = DateTime.utc(e.year, e.month, e.day, 12);
       if (_groupedEvents[date] == null) _groupedEvents[date] = [];
       _groupedEvents[date]?.add(event);
 
       // if (event['eventDatetime'] == _selectedDay.toString().substring(0,23)) print('hello');
       // print(DateTime.utc(int.parse(event['eventDatetime'])));
-
 
       // DateTime date = DateTime.utc(event.date.year, event.date.month, event.date.day, 12);
       // if (_groupedEvents[date] == null) _groupedEvents[date] = [];
@@ -71,9 +70,9 @@ class _CalendarState extends State<Calendar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder(
-        stream: eventsStream,
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          // if (snapshot.hasData) {
+          stream: eventsStream,
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            // if (snapshot.hasData) {
             final events = snapshot.data.docs;
             _groupEvents(events);
             DateTime? selectedDate = _selectedDay;
@@ -96,7 +95,8 @@ class _CalendarState extends State<Calendar> {
                     onDaySelected: (selectedDay, focusedDay) {
                       setState(() {
                         _selectedDay = selectedDay;
-                        _focusedDay = focusedDay; // update `_focusedDay` here as well
+                        _focusedDay =
+                            focusedDay; // update `_focusedDay` here as well
                       });
                     },
                     calendarFormat: _calendarFormat,
@@ -108,7 +108,6 @@ class _CalendarState extends State<Calendar> {
                     onPageChanged: (focusedDay) {
                       _focusedDay = focusedDay;
                     },
-
                     weekendDays: const [DateTime.saturday, DateTime.sunday],
                     headerStyle: HeaderStyle(
                       decoration: const BoxDecoration(
@@ -120,10 +119,10 @@ class _CalendarState extends State<Calendar> {
                       ),
                       formatButtonDecoration: BoxDecoration(
                         border: Border.all(color: Colors.white),
-                        borderRadius:
-                        BorderRadius.circular(20.0),
+                        borderRadius: BorderRadius.circular(20.0),
                       ),
-                      formatButtonTextStyle: const TextStyle(color: Colors.white),
+                      formatButtonTextStyle:
+                          const TextStyle(color: Colors.white),
                       leftChevronIcon: const Icon(
                         Icons.chevron_left,
                         color: Colors.white,
@@ -137,34 +136,39 @@ class _CalendarState extends State<Calendar> {
                     calendarBuilders: const CalendarBuilders(),
                   ),
                 ),
-                _selectedDay == null ? Container() :
-                    ListTile(
-                      leading: const Icon(
-                        Icons.add,
-                        color: Colors.transparent,
-                      ),
-                      title: Center(
-                        child: Text(
-                          DateFormat('EEEE, dd MMMM, yyyy').format(_selectedDay!),
-                          style: Theme.of(context).textTheme.headline6,
+                _selectedDay == null
+                    ? Container()
+                    : ListTile(
+                        leading: const Icon(
+                          Icons.add,
+                          color: Colors.transparent,
+                        ),
+                        title: Center(
+                          child: Text(
+                            DateFormat('EEEE, dd MMMM, yyyy')
+                                .format(_selectedDay!),
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                        ),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.add),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddEvent(
+                                          selectedDate: _selectedDay,
+                                          houseId: widget.houseId,
+                                          event: null,
+                                        )));
+                          },
                         ),
                       ),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.add),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddEvent(selectedDate: _selectedDay,houseId: widget.houseId, event: null,))
-                          );
-                        },
-                      ),
-                    ),
-
                 Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
-                    physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                    physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
                     itemCount: _selectedEvents.length,
                     itemBuilder: (context, index) {
                       // var event = _selectedEvents[index];
@@ -176,28 +180,33 @@ class _CalendarState extends State<Calendar> {
                           borderRadius: BorderRadius.circular(5.0),
                         ),
                         child: ListTile(
-                          title: Text(snapshot.data.docs[index].data()['eventTitle']),
+                          title: Text(
+                              snapshot.data.docs[index].data()['eventTitle']),
                           subtitle: Text(DateFormat("EEEE, dd MMMM, yyyy")
-                              .format(DateTime.parse(snapshot.data.docs[index].data()['eventDatetime']))),
+                              .format(DateTime.parse(snapshot.data.docs[index]
+                                  .data()['eventDatetime']))),
                           onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        EventDetails(event: snapshot.data.docs[index].data(), houseId: widget.houseId,)));
+                                    builder: (context) => EventDetails(
+                                          event:
+                                              snapshot.data.docs[index].data(),
+                                          houseId: widget.houseId,
+                                        )));
                           },
                           trailing: IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () =>
-                                {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => AddEvent(selectedDate: null, houseId: widget.houseId, event: snapshot.data.docs[index].data())
-                                      )
-                                  )
-                                }
-                          ),
+                              icon: const Icon(Icons.edit),
+                              onPressed: () => {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => AddEvent(
+                                                selectedDate: null,
+                                                houseId: widget.houseId,
+                                                event: snapshot.data.docs[index]
+                                                    .data())))
+                                  }),
                         ),
                       );
                     },
@@ -206,8 +215,8 @@ class _CalendarState extends State<Calendar> {
               ],
             );
           }
-        // },
-      ),
+          // },
+          ),
     );
   }
 }

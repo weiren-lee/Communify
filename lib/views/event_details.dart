@@ -7,7 +7,9 @@ class EventDetails extends StatelessWidget {
   final event;
   final String houseId;
 
-  const EventDetails({Key? key, required this.houseId, required this.event}) : super(key: key);
+  const EventDetails({Key? key, required this.houseId, required this.event})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     DatabaseService databaseService = DatabaseService();
@@ -26,9 +28,8 @@ class EventDetails extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AddEvent(selectedDate: null, houseId: houseId, event: event)
-                  )
-              );
+                      builder: (context) => AddEvent(
+                          selectedDate: null, houseId: houseId, event: event)));
               // Navigator.pushReplacementNamed(
               //   context,
               //   AppRoutes.editEvent,
@@ -40,24 +41,24 @@ class EventDetails extends StatelessWidget {
             icon: const Icon(Icons.delete),
             onPressed: () async {
               final confirm = await showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text("Warning!"),
-                  content: const Text("Are you sure you want to delete?"),
-                  actions: [
-                    TextButton(
-                        onPressed: () => Navigator.pop(context, true),
-                        child: const Text("Delete")),
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, false),
-                      child: Text(
-                        "Cancel",
-                        style: TextStyle(color: Colors.grey.shade700),
-                      ),
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text("Warning!"),
+                      content: const Text("Are you sure you want to delete?"),
+                      actions: [
+                        TextButton(
+                            onPressed: () => Navigator.pop(context, true),
+                            child: const Text("Delete")),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, false),
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(color: Colors.grey.shade700),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ) ??
+                  ) ??
                   false;
 
               if (confirm) {
@@ -77,8 +78,8 @@ class EventDetails extends StatelessWidget {
               event['eventTitle'],
               style: Theme.of(context).textTheme.headline5,
             ),
-            subtitle:
-            Text(DateFormat("EEEE, dd MMMM, yyyy").format(DateTime.parse(event['eventDatetime']))),
+            subtitle: Text(DateFormat("EEEE, dd MMMM, yyyy")
+                .format(DateTime.parse(event['eventDatetime']))),
           ),
           const SizedBox(height: 10.0),
           ListTile(

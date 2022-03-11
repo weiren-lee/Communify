@@ -149,4 +149,8 @@ class DatabaseService {
       print(e.toString());
     });
   }
+
+  deleteEvent(eventId) async {
+    await FirebaseFirestore.instance.collection('events').doc(eventId).delete();
+  }
 }

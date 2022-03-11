@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import 'add_event.dart';
+import 'event_details.dart';
 
 final kNow = DateTime.now();
 final kFirstDay = DateTime(kNow.year - 1, kNow.month - 1, kNow.day);
@@ -137,15 +138,11 @@ class _CalendarState extends State<Calendar> {
                     calendarBuilders: const CalendarBuilders(),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0, top: 8.0),
-                  child:
-                  _selectedDay == null ? Container() :
-                  Text(
-                    DateFormat('EEEE, dd MMMM, yyyy').format(_selectedDay!),
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                ),
+                // _selectedDay == null ? Container() :
+                // Text(
+                //   DateFormat('EEEE, dd MMMM, yyyy').format(_selectedDay!),
+                //   style: Theme.of(context).textTheme.headline6,
+                // ),
                 Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
@@ -164,6 +161,13 @@ class _CalendarState extends State<Calendar> {
                           title: Text(snapshot.data.docs[index].data()['eventTitle']),
                           subtitle: Text(DateFormat("EEEE, dd MMMM, yyyy")
                               .format(DateTime.parse(snapshot.data.docs[index].data()['eventDatetime']))),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        EventDetails(event: snapshot.data.docs[index].data())));
+                          },
                           // onTap: () => Navigator.pushNamed(
                           //     context, AppRoutes.viewEvent,
                           //     arguments: event),

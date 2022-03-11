@@ -25,7 +25,7 @@ class _AddEventState extends State<AddEvent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.blueGrey,
         leading: IconButton(
           icon: const Icon(
             Icons.clear,
@@ -47,7 +47,7 @@ class _AddEventState extends State<AddEvent> {
                 Map<String, String> eventMap = {
                   "eventId": eventId,
                   "eventTitle": eventTitle,
-                  "feedImageUrl": eventDetails,
+                  "eventDetails": eventDetails,
                   "eventDatetime": eventDatetime,
                   "createdBy": authService.getUserName(),
                   "houseId": widget.houseId,

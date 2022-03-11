@@ -8,8 +8,9 @@ import 'package:random_string/random_string.dart';
 class AddEvent extends StatefulWidget {
   final DateTime? selectedDate;
   final String houseId;
+  final event;
 
-  const AddEvent({Key? key, required this.selectedDate, required this.houseId}) : super(key: key);
+  const AddEvent({Key? key, required this.selectedDate, required this.houseId, required this.event}) : super(key: key);
 
   @override
   _AddEventState createState() => _AddEventState();
@@ -23,6 +24,11 @@ class _AddEventState extends State<AddEvent> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime eventDate = DateTime.now();
+
+    if (widget.event != null) {
+      eventDate = DateTime.parse(widget.event?['eventDatetime']);
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
@@ -56,7 +62,7 @@ class _AddEventState extends State<AddEvent> {
 
                 Navigator.pop(context);
                 },
-              child: const Text("Create Event"),
+              child: const Text("Save Event"),
             ),
           )
         ],
@@ -71,7 +77,7 @@ class _AddEventState extends State<AddEvent> {
               children: [
                 FormBuilderTextField(
                   name: "title",
-                  // initialValue: widget.event?.title,
+                  initialValue: widget.event?['eventTitle'],
                   decoration: const InputDecoration(
                       hintText: "Add Title",
                       border: InputBorder.none,
@@ -85,7 +91,7 @@ class _AddEventState extends State<AddEvent> {
                 const Divider(),
                 FormBuilderTextField(
                   name: "description",
-                  // initialValue: widget.event?.description,
+                  initialValue: widget.event?['eventDetails'],
                   minLines: 1,
                   maxLines: 5,
                   decoration: const InputDecoration(
@@ -100,8 +106,7 @@ class _AddEventState extends State<AddEvent> {
                 FormBuilderDateTimePicker(
                   name: "date",
                   initialValue: widget.selectedDate ??
-                      // widget.event?.date ??
-                      DateTime.now(),
+                      eventDate,
                   initialDate: DateTime.now(),
                   fieldHintText: "Add Date",
                   initialDatePickerMode: DatePickerMode.day,

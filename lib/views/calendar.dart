@@ -1,5 +1,4 @@
 import 'dart:collection';
-
 import 'package:communify/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -138,11 +137,30 @@ class _CalendarState extends State<Calendar> {
                     calendarBuilders: const CalendarBuilders(),
                   ),
                 ),
-                // _selectedDay == null ? Container() :
-                // Text(
-                //   DateFormat('EEEE, dd MMMM, yyyy').format(_selectedDay!),
-                //   style: Theme.of(context).textTheme.headline6,
-                // ),
+                _selectedDay == null ? Container() :
+                    ListTile(
+                      leading: const Icon(
+                        Icons.add,
+                        color: Colors.transparent,
+                      ),
+                      title: Center(
+                        child: Text(
+                          DateFormat('EEEE, dd MMMM, yyyy').format(_selectedDay!),
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddEvent(selectedDate: _selectedDay,houseId: widget.houseId, event: null,))
+                          );
+                        },
+                      ),
+                    ),
+
                 Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
@@ -166,20 +184,18 @@ class _CalendarState extends State<Calendar> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        EventDetails(event: snapshot.data.docs[index].data())));
+                                        EventDetails(event: snapshot.data.docs[index].data(), houseId: widget.houseId,)));
                           },
-                          // onTap: () => Navigator.pushNamed(
-                          //     context, AppRoutes.viewEvent,
-                          //     arguments: event),
                           trailing: IconButton(
                             icon: const Icon(Icons.edit),
                             onPressed: () =>
                                 {
-                                  // Navigator.pushNamed(
-                            //   context,
-                            //   AppRoutes.editEvent,
-                            //   arguments: event,
-                            // ),
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AddEvent(selectedDate: null, houseId: widget.houseId, event: snapshot.data.docs[index].data())
+                                      )
+                                  )
                                 }
                           ),
                         ),
@@ -191,17 +207,6 @@ class _CalendarState extends State<Calendar> {
             );
           }
         // },
-
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => AddEvent(selectedDate: _selectedDay,houseId: widget.houseId))
-          );
-          },
       ),
     );
   }

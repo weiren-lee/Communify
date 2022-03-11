@@ -1,11 +1,13 @@
+import 'package:communify/views/add_event.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:communify/services/database.dart';
 
 class EventDetails extends StatelessWidget {
   final event;
+  final String houseId;
 
-  const EventDetails({Key? key, required this.event}) : super(key: key);
+  const EventDetails({Key? key, required this.houseId, required this.event}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     DatabaseService databaseService = DatabaseService();
@@ -21,6 +23,12 @@ class EventDetails extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.edit),
             onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddEvent(selectedDate: null, houseId: houseId, event: event)
+                  )
+              );
               // Navigator.pushReplacementNamed(
               //   context,
               //   AppRoutes.editEvent,
@@ -63,7 +71,6 @@ class EventDetails extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
-          // Text(event.public ? "Public" : "Private"),
           ListTile(
             leading: const Icon(Icons.event),
             title: Text(

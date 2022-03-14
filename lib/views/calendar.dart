@@ -110,6 +110,9 @@ class _CalendarState extends State<Calendar> {
                     },
                     weekendDays: const [DateTime.saturday, DateTime.sunday],
                     headerStyle: HeaderStyle(
+                      // titleCentered: true,
+                      // formatButtonVisible: false,
+                      formatButtonShowsNext: false,
                       decoration: const BoxDecoration(
                         color: Colors.blueGrey,
                       ),

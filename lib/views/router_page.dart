@@ -1,11 +1,11 @@
 import 'package:communify/services/auth.dart';
 import 'package:communify/views/chores.dart';
 import 'package:communify/views/home.dart';
+import 'package:communify/views/poll.dart';
 import 'package:communify/views/signin.dart';
 import 'package:communify/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'calendar.dart';
 
 class RouterPage extends StatefulWidget {
@@ -47,12 +47,8 @@ class _RouterPageState extends State<RouterPage> {
           children: [
             Home(houseId: widget.houseId),
             Chores(houseId: widget.houseId,),
+            Poll(houseId: widget.houseId,),
             Calendar(houseId: widget.houseId,),
-            const Center(
-                child: Text(
-              'Settings',
-              style: TextStyle(fontSize: 50),
-            )),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -74,13 +70,13 @@ class _RouterPageState extends State<RouterPage> {
                 backgroundColor: Colors.grey,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.calendar_today),
-                label: 'Calendar',
+                icon: Icon(Icons.bar_chart),
+                label: 'Poll',
                 backgroundColor: Colors.black,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
-                label: 'Settings',
+                icon: Icon(Icons.calendar_today),
+                label: 'Calendar',
                 backgroundColor: Colors.grey,
               ),
             ]));

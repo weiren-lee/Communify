@@ -153,4 +153,39 @@ class DatabaseService {
   deleteEvent(eventId) async {
     await FirebaseFirestore.instance.collection('events').doc(eventId).delete();
   }
+
+  Future<void> addPolData(Map<String, dynamic> pollData, String pollId) async {
+    await FirebaseFirestore.instance
+        .collection("polls")
+        .doc(pollId)
+        .set(pollData)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  getPollData(houseId) async {
+    return await FirebaseFirestore.instance
+        .collection("polls")
+        .where('houseId', isEqualTo: houseId)
+        .snapshots();
+  }
+
+  updatePollData(pollId, option) async {
+    FirebaseFirestore.instance
+        .collection("polls")
+        .doc(pollId)
+        .update({"pollOptionsValues": option}).whenComplete(() async {
+      print("pollOptionsValues updated");
+    }).catchError((e) => print(e));
+  }
+
+  updatePollUser(pollId, userMap) async {
+    FirebaseFirestore.instance
+        .collection("polls")
+        .doc(pollId)
+        .update({"usersWhoVoted": userMap}).whenComplete(() async {
+      print("usersWhoVoted updated");
+    }).catchError((e) => print(e));
+  }
 }

@@ -73,7 +73,6 @@ class _HomeState extends State<Home> {
                   builder: (context) => CreateFeed(houseId: widget.houseId)));
         },
       ),
-
     );
   }
 }

@@ -30,10 +30,16 @@ class _AddEventState extends State<AddEvent> {
   @override
   Widget build(BuildContext context) {
     DateTime eventDate = DateTime.now();
+    eventDetails = '';
+    eventId = randomAlphaNumeric(16);
 
     if (widget.event != null) {
+      eventId = widget.event['eventId'];
       eventDate = DateTime.parse(widget.event?['eventDatetime']);
+      eventTitle = widget.event['eventTitle'];
+      eventDetails = widget.event['eventDetails'];
     }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
@@ -51,24 +57,26 @@ class _AddEventState extends State<AddEvent> {
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
               onPressed: () async {
-                _formKey.currentState?.save();
-                // eventDatetime = ((_formKey.currentState!.value['date'] as DateTime).millisecondsSinceEpoch).toString();
-                eventDatetime =
-                    (_formKey.currentState!.value['date'] as DateTime)
-                        .toString()
-                        .substring(0, 23);
-                eventId = randomAlphaNumeric(16);
-                Map<String, String> eventMap = {
-                  "eventId": eventId,
-                  "eventTitle": eventTitle,
-                  "eventDetails": eventDetails,
-                  "eventDatetime": eventDatetime,
-                  "createdBy": authService.getUserName(),
-                  "houseId": widget.houseId,
-                };
-                await databaseService.addEventData(eventMap, eventId);
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState?.save();
+                  // eventDatetime = ((_formKey.currentState!.value['date'] as DateTime).millisecondsSinceEpoch).toString();
+                  eventDatetime =
+                      (_formKey.currentState!.value['date'] as DateTime)
+                          .toString()
+                          .substring(0, 23);
+                  Map<String, String> eventMap = {
+                    "eventId": eventId,
+                    "eventTitle": eventTitle,
+                    "eventDetails": eventDetails,
+                    "eventDatetime": eventDatetime,
+                    "createdBy": authService.getUserName(),
+                    "houseId": widget.houseId,
+                  };
+                  await databaseService.addEventData(eventMap, eventId);
 
-                Navigator.pop(context);
+                  Navigator.pop(context);
+                }
+
               },
               child: const Text("Save Event"),
             ),
@@ -86,10 +94,13 @@ class _AddEventState extends State<AddEvent> {
                 FormBuilderTextField(
                   name: "title",
                   initialValue: widget.event?['eventTitle'],
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(context,
+                        errorText: 'Must not be nil'),
+                  ]),
                   decoration: const InputDecoration(
                     hintText: "Add Title",
                     border: InputBorder.none,
-                    // contentPadding: EdgeInsets.only(left: 48.0),
                     prefixIcon: Icon(Icons.title),
                   ),
                   onChanged: (val) {
@@ -103,7 +114,7 @@ class _AddEventState extends State<AddEvent> {
                   minLines: 1,
                   maxLines: 5,
                   decoration: const InputDecoration(
-                      hintText: "Add Details",
+                      hintText: "Add Details (optional)",
                       border: InputBorder.none,
                       prefixIcon: Icon(Icons.short_text)),
                   onChanged: (val) {

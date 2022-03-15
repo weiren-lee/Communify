@@ -30,11 +30,6 @@ class EventDetails extends StatelessWidget {
                   MaterialPageRoute(
                       builder: (context) => AddEvent(
                           selectedDate: null, houseId: houseId, event: event)));
-              // Navigator.pushReplacementNamed(
-              //   context,
-              //   AppRoutes.editEvent,
-              //   arguments: event,
-              // );
             },
           ),
           IconButton(
@@ -82,11 +77,18 @@ class EventDetails extends StatelessWidget {
                 .format(DateTime.parse(event['eventDatetime']))),
           ),
           const SizedBox(height: 10.0),
-          ListTile(
-            leading: const Icon(Icons.short_text),
-            title: Text(event['eventDetails']),
-          ),
-          const SizedBox(height: 20.0),
+          (event['eventDetails'] == '') ? Container():
+            Column(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.short_text),
+                  title: Text(event['eventDetails']),
+                ),
+                const SizedBox(height: 20.0),
+              ],
+            ),
+
+
           ListTile(
             leading: const Icon(Icons.person_sharp),
             title: Text(event['createdBy']),

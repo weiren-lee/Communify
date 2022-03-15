@@ -33,6 +33,10 @@ class DatabaseService {
     });
   }
 
+  deleteFeed(feedId) async {
+    await FirebaseFirestore.instance.collection('feed').doc(feedId).delete();
+  }
+
   Future<void> addChoresData(
       Map<String, dynamic> choreData, String choreId) async {
     await FirebaseFirestore.instance

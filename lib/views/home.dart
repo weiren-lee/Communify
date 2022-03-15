@@ -41,6 +41,8 @@ class _HomeState extends State<Home> {
                 snapshot.data.docs[index].data()['name'],
                 datetime:
                 snapshot.data.docs[index].data()['datetime'],
+                feedId:
+                  snapshot.data.docs[index].data()['feedId'],
               );
             });
       },
@@ -79,11 +81,13 @@ class FeedTile extends StatelessWidget {
   late final String desc;
   late final String name;
   late final String datetime;
+  late final String feedId;
 
   FeedTile(
-      {required this.imgUrl, required this.desc, required this.name, required this.datetime});
+      {required this.imgUrl, required this.desc, required this.name, required this.datetime, required this.feedId});
 
   final String currentDateTime = DateTime.now().toString();
+  DatabaseService databaseService = DatabaseService();
 
   @override
   Widget build(BuildContext context) {
@@ -127,6 +131,9 @@ class FeedTile extends StatelessWidget {
         currentDateTime.substring(0, 4)) - int.parse(datetime.substring(0, 4)))
         .toString() + ' years ago ';
 
+    deleteFeed(feedId) async {
+      await databaseService.deleteFeed(feedId);
+    }
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -165,8 +172,11 @@ class FeedTile extends StatelessWidget {
                         ],
                       ),
                     ),
-                    IconButton(onPressed: () => const Text('More'),
-                        icon: const Icon(Icons.more_horiz))
+                    IconButton(
+                        onPressed: () => {
+                          deleteFeed(feedId)
+                        },
+                        icon: const Icon(Icons.delete_outline))
                   ],
                 ),
                 // end of post header

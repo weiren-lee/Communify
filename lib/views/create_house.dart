@@ -4,6 +4,7 @@ import 'package:communify/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class CreateHouse extends StatefulWidget {
   const CreateHouse({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class CreateHouse extends StatefulWidget {
 }
 
 class _CreateHouseState extends State<CreateHouse> {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   late String houseId, houseName, housePassword;
   DatabaseService databaseService = DatabaseService();
   AuthService authService = AuthService();
@@ -50,64 +51,90 @@ class _CreateHouseState extends State<CreateHouse> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: appBar(context),
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          iconTheme: const IconThemeData(color: Colors.black87),
-          systemOverlayStyle: SystemUiOverlayStyle.light,
+          backgroundColor: Colors.blueGrey,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.clear,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.grey[200]),
+                ),
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState?.save();
+                    createHouseOnline();
+                    Navigator.pop(context);
+                  }
+                },
+                child: const Text(
+                  "Create House",
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
         body: _isLoading
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : Form(
+            : FormBuilder(
                 key: _formKey,
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     children: [
-                      const Text(
-                        'Create your house now!',
-                        style: TextStyle(fontSize: 20),
-                      ),
                       const SizedBox(
                         height: 15,
                       ),
-                      TextFormField(
-                        validator: (val) =>
-                            val!.isEmpty ? "Enter a valid House Name!" : null,
+                      FormBuilderTextField(
+                        name: 'name',
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(context,
+                              errorText: 'Must not be nil'),
+                        ]),
                         decoration: const InputDecoration(
                           hintText: "House Name",
+                          border: InputBorder.none,
+                          prefixIcon: Icon(Icons.house),
                         ),
                         onChanged: (val) {
-                          houseName = val;
+                          houseName = val!;
                         },
                       ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      TextFormField(
-                        validator: (val) =>
-                            val!.isEmpty ? "Enter a valid password!" : null,
+                      const Divider(),
+
+                      FormBuilderTextField(
+                        name: 'password',
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(context,
+                              errorText: 'Must not be nil'),
+                        ]),
                         decoration: const InputDecoration(
                           hintText: "House Password",
+                          border: InputBorder.none,
+                          prefixIcon: Icon(Icons.password),
                         ),
                         onChanged: (val) {
-                          housePassword = val;
+                          housePassword = val!;
                         },
                       ),
-                      const Spacer(),
-                      GestureDetector(
-                          onTap: () {
-                            createHouseOnline();
-                          },
-                          child: blueButton(context, "Create your House")),
-                      const SizedBox(
-                        height: 40,
-                      ),
+                      const Divider(),
                     ],
                   ),
                 ),
-              ));
+              )
+    );
   }
 }

@@ -39,17 +39,19 @@ class _CreateFeedState extends State<CreateFeed> {
       feedId = randomAlphaNumeric(16);
 
       // for image
-      if (image == null) return;
+      var urlDownload = "";
+      if (image != null) {
+        final fileName = basename(image!.path);
+        final destination = 'files/$fileName';
 
-      final fileName = basename(image!.path);
-      final destination = 'files/$fileName';
+        task = FirebaseApi.uploadFile(destination, image!);
 
-      task = FirebaseApi.uploadFile(destination, image!);
+        // if (task == null) return;
 
-      if (task == null) return;
+        final snapshot = await task!.whenComplete(() {});
+        urlDownload = await snapshot.ref.getDownloadURL();
+      };
 
-      final snapshot = await task!.whenComplete(() {});
-      final urlDownload = await snapshot.ref.getDownloadURL();
 
       Map<String, String> feedMap = {
         "feedId": feedId,

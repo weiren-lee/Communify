@@ -94,6 +94,15 @@ class DatabaseService {
         .snapshots();
   }
 
+  updateItemStatus(itemId, bought) async {
+    FirebaseFirestore.instance
+        .collection('items')
+        .doc(itemId)
+        .update({"bought": bought}).whenComplete(() async {
+      print("bought? set to" + bought);
+    }).catchError((e) => print(e));
+  }
+
   Future<void> addUserData(Map<String, dynamic> userData, String userId) async {
     await FirebaseFirestore.instance
         .collection("user")

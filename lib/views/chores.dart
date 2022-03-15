@@ -13,7 +13,7 @@ class Chores extends StatefulWidget {
   _ChoresState createState() => _ChoresState();
 }
 
-class _ChoresState extends State<Chores> {
+class _ChoresState extends State<Chores> with TickerProviderStateMixin{
   late Stream fileStream;
   late Stream itemStream;
   AuthService authService = AuthService();
@@ -25,10 +25,11 @@ class _ChoresState extends State<Chores> {
   addItemData() async {
     var itemId = randomAlphaNumeric(16);
 
-    Map<String, String> itemMap = {
+    Map<String, dynamic> itemMap = {
       "itemId": itemId,
       "itemName": itemController.text,
       "houseId": widget.houseId,
+      "bought": false,
     };
 
     await databaseService.addItemNameData(itemMap, itemId);
@@ -59,8 +60,17 @@ class _ChoresState extends State<Chores> {
   }
 
   deleteItem(itemId) async {
-    print(itemId);
     await databaseService.deleteItemName(itemId);
+  }
+
+  bool completed = false;
+  late AnimationController controller;
+  late Animation animation;
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   Widget choresList() {
@@ -189,9 +199,30 @@ class _ChoresState extends State<Chores> {
                                           deleteItem(snapshot.data.docs[index]
                                               .data()['itemId']);
                                         },
-                                        child: ListTile(
-                                          title: Text(snapshot.data.docs[index]
-                                              .data()['itemName']),
+                                        child: InkWell(
+                                          onTap: () {
+                                            setState(() => completed = !completed);
+                                            controller.forward(from: 1.0);
+                                            databaseService.updateItemStatus(snapshot.data.docs[index].data()['itemId'], completed);
+                                          },
+                                          child: ListTile(
+                                            title: Container(
+                                              transform: Matrix4.identity()..scale(animation.value, 1.0),
+                                              child: Text(
+                                                  snapshot.data.docs[index]
+                                                  .data()['itemName'],
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  decorationColor: Colors.blueGrey,
+                                                  decorationStyle: TextDecorationStyle.solid,
+                                                  decorationThickness: 3,
+                                                  decoration: snapshot.data.docs[index].data()['bought']
+                                                      ? TextDecoration.lineThrough
+                                                      : TextDecoration.none,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ));
                                   }),
                             );
@@ -224,6 +255,18 @@ class _ChoresState extends State<Chores> {
     });
 
     super.initState();
+
+    controller = AnimationController(
+      duration: const Duration(milliseconds: 225),
+      vsync: this,
+    );
+
+    final CurvedAnimation curve =
+    CurvedAnimation(parent: controller, curve: Curves.easeOut);
+
+    animation = Tween(begin: 0.0, end: 1.0).animate(curve)
+      ..addListener(() => setState(() {}));
+    controller.forward(from: 0.0);
   }
 
   @override

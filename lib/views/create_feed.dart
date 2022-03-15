@@ -21,7 +21,7 @@ class CreateFeed extends StatefulWidget {
 }
 
 class _CreateFeedState extends State<CreateFeed> {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   late String feedImageUrl, feedDescription, feedId, name, houseId;
   DatabaseService databaseService = DatabaseService();
   AuthService authService = AuthService();

@@ -77,6 +77,9 @@ class _CreatePollTwoState extends State<CreatePollTwo> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.grey[200]),
+              ),
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   pollOptions = [];
@@ -110,7 +113,12 @@ class _CreatePollTwoState extends State<CreatePollTwo> {
                   });
                 }
               },
-              child: const Text("Create Poll"),
+              child: const Text(
+                "Create Poll",
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                ),
+              ),
             ),
           )
         ],

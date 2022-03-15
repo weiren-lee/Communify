@@ -42,6 +42,9 @@ class _CreateChoresState extends State<CreateChores> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.grey[200]),
+              ),
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   Navigator.push(
@@ -55,8 +58,12 @@ class _CreateChoresState extends State<CreateChores> {
                               )));
                 }
               },
-              child: const Text("Next"),
-            ),
+              child: const Text(
+                "Next",
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                ),
+              ),            ),
           )
         ],
       ),

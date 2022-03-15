@@ -56,6 +56,9 @@ class _AddEventState extends State<AddEvent> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.grey[200]),
+              ),
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState?.save();
@@ -76,10 +79,13 @@ class _AddEventState extends State<AddEvent> {
 
                   Navigator.pop(context);
                 }
-
               },
-              child: const Text("Save Event"),
-            ),
+              child: const Text(
+                "Save Event",
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                ),
+              ),            ),
           )
         ],
       ),

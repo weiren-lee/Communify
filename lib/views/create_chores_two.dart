@@ -72,6 +72,9 @@ class _CreateChoresTwoState extends State<CreateChoresTwo> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.grey[200]),
+              ),
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   var nameOptions = [];
@@ -98,8 +101,12 @@ class _CreateChoresTwoState extends State<CreateChoresTwo> {
                   });
                 }
               },
-              child: const Text("Create Chore"),
-            ),
+              child: const Text(
+                "Create Chore",
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                ),
+              ),            ),
           )
         ],
       ),

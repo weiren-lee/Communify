@@ -3,8 +3,6 @@ import 'package:communify/services/database.dart';
 import 'package:communify/views/create_poll_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:intl/intl.dart';
-import 'package:random_string/random_string.dart';
 
 class CreatePoll extends StatefulWidget {
   final String houseId;

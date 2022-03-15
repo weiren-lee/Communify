@@ -43,10 +43,9 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        scaffoldBackgroundColor: Palette.scaffold,
+        scaffoldBackgroundColor: const Color(0xFFF0F2F5),
       ),
       home: (_isLoggedin) ? const ChooseHouse() : const SignIn(),
-
     );
   }
 }

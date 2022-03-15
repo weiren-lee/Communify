@@ -6,17 +6,17 @@ Widget loginAppBar(BuildContext context) {
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       RichText(
-        text: const TextSpan(
-          style: TextStyle(fontSize: 22),
+        text: TextSpan(
+          style: const TextStyle(fontSize: 22),
           children: <TextSpan>[
             TextSpan(
                 text: 'Comm',
                 style: TextStyle(
-                    fontWeight: FontWeight.w600, color: Palette.logoGrey)),
-            TextSpan(
+                    fontWeight: FontWeight.w600, color: Colors.grey.shade200)),
+            const TextSpan(
                 text: 'Unify',
                 style:
-                TextStyle(fontWeight: FontWeight.w600, color: Palette.logoBlue)),
+                TextStyle(fontWeight: FontWeight.w600, color: Color(0xAAe7eef6))),
           ],
         ),
         textAlign: TextAlign.center,
@@ -30,17 +30,17 @@ Widget appBar(BuildContext context) {
   return Row(
     children: [
       RichText(
-        text: const TextSpan(
+        text: TextSpan(
           style: TextStyle(fontSize: 22),
           children: <TextSpan>[
             TextSpan(
                 text: 'Comm',
                 style: TextStyle(
-                    fontWeight: FontWeight.w600, color: Palette.logoGrey)),
-            TextSpan(
+                    fontWeight: FontWeight.w600, color: Colors.grey.shade200)),
+            const TextSpan(
                 text: 'Unify',
                 style:
-                    TextStyle(fontWeight: FontWeight.w600, color: Palette.logoBlue)),
+                    TextStyle(fontWeight: FontWeight.w600, color: Color(0xAAe7eef6))),
           ],
         ),
       ),

@@ -47,21 +47,25 @@ class _ChooseHouseState extends State<ChooseHouse> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: appBar(context),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        iconTheme: const IconThemeData(color: Colors.black87),
-        systemOverlayStyle: SystemUiOverlayStyle.light,
-      ),
-      body: houseList(),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const CreateHouse()));
-        },
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: appBar(context),
+          backgroundColor: const Color(0xAA3385c6),
+          elevation: 0.0,
+          iconTheme: const IconThemeData(color: Colors.black87),
+          systemOverlayStyle: SystemUiOverlayStyle.light,
+        ),
+        body: houseList(),
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const CreateHouse()));
+          },
+        ),
       ),
     );
   }

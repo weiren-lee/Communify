@@ -104,7 +104,10 @@ class _CreatePollTwoState extends State<CreatePollTwo> {
                   };
                   await databaseService.addPolData(pollMap, pollId);
 
-                  Navigator.pop(context);
+                  var count = 0;
+                  Navigator.popUntil(context, (route) {
+                    return count++ == 2;
+                  });
                 }
               },
               child: const Text("Create Poll"),

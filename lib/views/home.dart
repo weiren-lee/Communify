@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:communify/services/database.dart';
 import 'package:communify/views/create_feed.dart';
 import 'package:communify/services/auth.dart';
-import 'package:flutter/foundation.dart';
 
 class Home extends StatefulWidget {
 
@@ -24,29 +23,27 @@ class _HomeState extends State<Home> {
   DatabaseService databaseService = DatabaseService();
 
   Widget feedList() {
-    return Container(
-      child: StreamBuilder(
-        stream: fileStream,
-        builder: (context, AsyncSnapshot snapshot) {
-          return snapshot.data == null
-              ? Container()
-              : ListView.builder(
-              shrinkWrap: true,
-              itemCount: snapshot.data.docs.length,
-              itemBuilder: (context, index) {
-                return FeedTile(
-                  imgUrl:
-                  snapshot.data.docs[index].data()['feedImageUrl'],
-                  desc:
-                  snapshot.data.docs[index].data()['feedDescription'],
-                  name:
-                  snapshot.data.docs[index].data()['name'],
-                  datetime:
-                  snapshot.data.docs[index].data()['datetime'],
-                );
-              });
-        },
-      ),
+    return StreamBuilder(
+      stream: fileStream,
+      builder: (context, AsyncSnapshot snapshot) {
+        return snapshot.data == null
+            ? Container()
+            : ListView.builder(
+            shrinkWrap: true,
+            itemCount: snapshot.data.docs.length,
+            itemBuilder: (context, index) {
+              return FeedTile(
+                imgUrl:
+                snapshot.data.docs[index].data()['feedImageUrl'],
+                desc:
+                snapshot.data.docs[index].data()['feedDescription'],
+                name:
+                snapshot.data.docs[index].data()['name'],
+                datetime:
+                snapshot.data.docs[index].data()['datetime'],
+              );
+            });
+      },
     );
   }
 

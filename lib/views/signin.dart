@@ -41,81 +41,85 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: loginAppBar(context),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        systemOverlayStyle: SystemUiOverlayStyle.light,
-      ),
-      resizeToAvoidBottomInset: false,
-      body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : Form(
-              key: _formKey,
-              child: Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                child: Column(children: [
-                  const Spacer(),
-                  TextFormField(
-                      validator: (val) {
-                        return val!.isEmpty ? "Enter Email ID" : null;
-                      },
-                      decoration: const InputDecoration(hintText: "Email"),
-                      onChanged: (val) {
-                        email = val;
-                      }),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  TextFormField(
-                      obscureText: true,
-                      validator: (val) {
-                        return val!.isEmpty ? "Enter Password" : null;
-                      },
-                      decoration: const InputDecoration(hintText: "Password"),
-                      onChanged: (val) {
-                        password = val;
-                      }),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  GestureDetector(
-                      onTap: () {
-                        signIn();
-                      },
-                      child: blueButton(context, "Sign In")),
-                  const SizedBox(
-                    height: 18,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text("Don't have an account? ",
-                          style: TextStyle(fontSize: 15.5)),
-                      GestureDetector(
-                          onTap: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const SignUp()));
-                          },
-                          child: const Text("Sign Up",
-                              style: TextStyle(
-                                  fontSize: 15.5,
-                                  decoration: TextDecoration.underline))),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 80,
-                  ),
-                ]),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          title: loginAppBar(context),
+          backgroundColor: const Color(0xAA3385c6),
+          elevation: 0.0,
+          systemOverlayStyle: SystemUiOverlayStyle.light,
+        ),
+        resizeToAvoidBottomInset: false,
+        body: _isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : Form(
+                key: _formKey,
+                child: Container(
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                  child: Column(children: [
+                    const Spacer(),
+                    TextFormField(
+                        validator: (val) {
+                          return val!.isEmpty ? "Enter Email ID" : null;
+                        },
+                        decoration: const InputDecoration(hintText: "Email"),
+                        onChanged: (val) {
+                          email = val;
+                        }),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    TextFormField(
+                        obscureText: true,
+                        validator: (val) {
+                          return val!.isEmpty ? "Enter Password" : null;
+                        },
+                        decoration: const InputDecoration(hintText: "Password"),
+                        onChanged: (val) {
+                          password = val;
+                        }),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          signIn();
+                        },
+                        child: blueButton(context, "Sign In")),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text("Don't have an account? ",
+                            style: TextStyle(fontSize: 15.5)),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const SignUp()));
+                            },
+                            child: const Text("Sign Up",
+                                style: TextStyle(
+                                    fontSize: 15.5,
+                                    decoration: TextDecoration.underline))),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 80,
+                    ),
+                  ]),
+                ),
               ),
-            ),
+      ),
     );
   }
 }

@@ -28,7 +28,7 @@ class _RouterPageState extends State<RouterPage> {
         appBar: AppBar(
             automaticallyImplyLeading: false,
             title: appBar(context),
-            backgroundColor: Colors.transparent,
+            backgroundColor: const Color(0xAA3385c6),
             elevation: 0.0,
             systemOverlayStyle: SystemUiOverlayStyle.light,
             actions: [
@@ -53,8 +53,8 @@ class _RouterPageState extends State<RouterPage> {
         ),
         bottomNavigationBar: BottomNavigationBar(
             // type: BottomNavigationBarType.fixed,
-            // backgroundColor: Colors.blue,
-            // selectedItemColor: Colors.white,
+            backgroundColor: Color(0xAA3385c6),
+            selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white70,
             currentIndex: currentIndex,
             onTap: (index) => setState(() => currentIndex = index),
@@ -62,22 +62,22 @@ class _RouterPageState extends State<RouterPage> {
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: 'Feed',
-                backgroundColor: Colors.black,
+                backgroundColor: Color(0xAA3385c6),
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.checklist),
                 label: 'Chores',
-                backgroundColor: Colors.grey,
+                backgroundColor: Color(0xAA3385c6),
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.bar_chart),
-                label: 'Poll',
-                backgroundColor: Colors.black,
+                label: 'Polls',
+                backgroundColor: Color(0xAA3385c6),
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.calendar_today),
                 label: 'Calendar',
-                backgroundColor: Colors.grey,
+                backgroundColor: Color(0xAA3385c6),
               ),
             ]));
   }

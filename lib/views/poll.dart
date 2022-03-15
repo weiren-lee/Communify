@@ -68,6 +68,7 @@ class _PollState extends State<Poll> {
     return Scaffold(
       body: Column(
         children: [
+          const SizedBox(height: 20,),
           Row(
             children: [
               const Spacer(),

@@ -75,6 +75,7 @@ class _ChoresState extends State<Chores> with TickerProviderStateMixin{
   Widget choresList() {
     return Column(
       children: [
+        const SizedBox(height: 20,),
         Row(
           children: [
             const Spacer(),

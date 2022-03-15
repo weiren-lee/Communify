@@ -73,7 +73,7 @@ class EventDetails extends StatelessWidget {
               event['eventTitle'],
               style: Theme.of(context).textTheme.headline5,
             ),
-            subtitle: Text(DateFormat("EEEE, dd MMMM, yyyy")
+            subtitle: Text(DateFormat("EEEE, dd MMMM, yyyy, h:mm a")
                 .format(DateTime.parse(event['eventDatetime']))),
           ),
           const SizedBox(height: 10.0),
@@ -87,8 +87,6 @@ class EventDetails extends StatelessWidget {
                 const SizedBox(height: 20.0),
               ],
             ),
-
-
           ListTile(
             leading: const Icon(Icons.person_sharp),
             title: Text(event['createdBy']),

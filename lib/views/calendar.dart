@@ -185,7 +185,7 @@ class _CalendarState extends State<Calendar> {
                         child: ListTile(
                           title: Text(
                               snapshot.data.docs[index].data()['eventTitle']),
-                          subtitle: Text(DateFormat("EEEE, dd MMMM, yyyy")
+                          subtitle: Text(DateFormat("EEEE, dd MMMM, yyyy, h:mm a")
                               .format(DateTime.parse(snapshot.data.docs[index]
                                   .data()['eventDatetime']))),
                           onTap: () {

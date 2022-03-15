@@ -128,8 +128,8 @@ class _AddEventState extends State<AddEvent> {
                   initialDate: DateTime.now(),
                   fieldHintText: "Add Date",
                   initialDatePickerMode: DatePickerMode.day,
-                  inputType: InputType.date,
-                  format: DateFormat('EEEE, dd MMMM, yyyy'),
+                  inputType: InputType.both,
+                  format: DateFormat('EEEE, dd MMMM, yyyy, h:mm a'),
                   decoration: const InputDecoration(
                     border: InputBorder.none,
                     prefixIcon: Icon(Icons.calendar_today_sharp),

@@ -27,6 +27,7 @@ class _CreatePollState extends State<CreatePoll> {
 
   @override
   Widget build(BuildContext context) {
+    pollDetails = '';
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
@@ -86,14 +87,10 @@ class _CreatePollState extends State<CreatePoll> {
                 const Divider(),
                 FormBuilderTextField(
                   name: "details",
-                  validator: FormBuilderValidators.compose([
-                    FormBuilderValidators.required(context,
-                        errorText: 'Must not be nil'),
-                  ]),
                   minLines: 1,
                   maxLines: 5,
                   decoration: const InputDecoration(
-                      hintText: "Add Details",
+                      hintText: "Add Details (optional)",
                       border: InputBorder.none,
                       prefixIcon: Icon(Icons.short_text)),
                   onChanged: (val) {
@@ -104,7 +101,7 @@ class _CreatePollState extends State<CreatePoll> {
                 FormBuilderDropdown(
                   name: 'options',
                   decoration: const InputDecoration(
-                    labelText: 'Options',
+                    labelText: 'No. of Options',
                   ),
                   allowClear: true,
                   initialValue: 2,

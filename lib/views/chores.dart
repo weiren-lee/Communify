@@ -86,7 +86,7 @@ class _ChoresState extends State<Chores> {
                           builder: (context) =>
                               CreateChores(houseId: widget.houseId)));
                 },
-                child: const Icon(Icons.add),
+                child: const Icon(Icons.notification_add_outlined),
               ),
             ),
             const Spacer(),
@@ -142,7 +142,7 @@ class _ChoresState extends State<Chores> {
                 onTap: () {
                   createModal(context);
                 },
-                child: const Icon(Icons.add),
+                child: const Icon(Icons.library_add_outlined),
               ),
             ),
             const Spacer(),

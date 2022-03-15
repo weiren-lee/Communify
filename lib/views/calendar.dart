@@ -154,7 +154,7 @@ class _CalendarState extends State<Calendar> {
                           ),
                         ),
                         trailing: IconButton(
-                          icon: const Icon(Icons.add),
+                          icon: const Icon(Icons.bookmark_add_outlined),
                           onPressed: () {
                             Navigator.push(
                                 context,

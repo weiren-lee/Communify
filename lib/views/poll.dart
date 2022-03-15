@@ -45,6 +45,7 @@ class _PollState extends State<Poll> {
                     pollOptionsValues:
                         snapshot.data.docs[index].data()['pollOptionsValues'],
                     pollId: snapshot.data.docs[index].data()['pollId'],
+                    pollDetails: snapshot.data.docs[index].data()['pollDetails'],
                   );
                 },
               );
@@ -65,15 +66,36 @@ class _PollState extends State<Poll> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pollList(),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => CreatePoll(houseId: widget.houseId)));
-        },
+      body: Column(
+        children: [
+          Row(
+            children: [
+              const Spacer(),
+              const Icon(
+                Icons.add,
+                color: Colors.transparent,
+              ),
+              const Text('Polls',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CreatePoll(houseId: widget.houseId)));
+                  },
+                  child: const Icon(Icons.addchart_outlined),
+                ),
+              ),
+              const Spacer(),
+            ],
+          ),
+          const SizedBox(height: 10,),
+          Expanded(child: pollList()),
+        ],
       ),
     );
   }

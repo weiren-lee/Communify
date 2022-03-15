@@ -67,7 +67,7 @@ class _CreatePollTwoState extends State<CreatePollTwo> {
         backgroundColor: Colors.blueGrey,
         leading: IconButton(
           icon: const Icon(
-            Icons.clear,
+            Icons.arrow_back,
             color: Colors.white,
           ),
           onPressed: () {

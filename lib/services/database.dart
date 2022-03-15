@@ -188,4 +188,8 @@ class DatabaseService {
       print("usersWhoVoted updated");
     }).catchError((e) => print(e));
   }
+
+  deletePoll(pollId) async {
+    await FirebaseFirestore.instance.collection('polls').doc(pollId).delete();
+  }
 }

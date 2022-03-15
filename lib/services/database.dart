@@ -99,7 +99,6 @@ class DatabaseService {
         .collection('items')
         .doc(itemId)
         .update({"bought": bought}).whenComplete(() async {
-      print("bought? set to" + bought);
     }).catchError((e) => print(e));
   }
 

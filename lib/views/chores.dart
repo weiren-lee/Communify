@@ -31,7 +31,6 @@ class _ChoresState extends State<Chores> with TickerProviderStateMixin{
       "houseId": widget.houseId,
       "bought": false,
     };
-
     await databaseService.addItemNameData(itemMap, itemId);
   }
 

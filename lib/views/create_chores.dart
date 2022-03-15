@@ -1,3 +1,4 @@
+import 'package:communify/views/create_chores_two.dart';
 import 'package:communify/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -5,6 +6,7 @@ import 'package:communify/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:random_string/random_string.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class CreateChores extends StatefulWidget {
   final dynamic houseId;
@@ -16,143 +18,97 @@ class CreateChores extends StatefulWidget {
 }
 
 class _CreateChoresState extends State<CreateChores> {
-  DatabaseService databaseService = DatabaseService();
-
-  final _formKey = GlobalKey<FormState>();
-  bool _isLoading = false;
-  late String choreId, choreName, assignedUser;
+  final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
+  late String choreName;
   List<String> names = [];
-
-  createChoreOnline() async {
-    var choreId = randomAlphaNumeric(16);
-    var random = Random();
-    var assignedUser = names[random.nextInt(names.length)];
-
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
-
-      Map<String, String> choreMap = {
-        "choreId": choreId,
-        "choreName": choreName,
-        "assignedUser": assignedUser,
-        "status": "incomplete",
-        "houseId": widget.houseId,
-      };
-
-      await databaseService.addChoresData(choreMap, choreId).then((value) {
-        setState(() {
-          _isLoading = false;
-        });
-      });
-    }
-  }
-
-  TextEditingController nameController = TextEditingController();
+  List noOfOptions = [2, 3, 4];
+  var randomiserNoOfOptions;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: appBar(context),
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          iconTheme: const IconThemeData(color: Colors.black87),
-          systemOverlayStyle: SystemUiOverlayStyle.light,
+      appBar: AppBar(
+        backgroundColor: Colors.blueGrey,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.clear,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        body: _isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : Form(
-                key: _formKey,
-                child: Column(children: [
-                  const Text("Create a chore!"),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 10),
-                    child: TextFormField(
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(20),
-                      ],
-                      validator: (val) =>
-                          val!.isEmpty ? "Enter your thoughts here" : null,
-                      decoration: const InputDecoration(
-                        hintText: "Create a chore...",
-                      ),
-                      onChanged: (val) {
-                        choreName = val;
-                      },
-                    ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () async {
+                if (_formKey.currentState!.validate()) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              CreateChoresTwo(
+                                houseId: widget.houseId,
+                                choreName: choreName,
+                                randomiserNoOfOptions: randomiserNoOfOptions ?? 2,
+                              )));
+                }
+              },
+              child: const Text("Next"),
+            ),
+          )
+        ],
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: <Widget>[
+          //add event form
+          FormBuilder(
+            key: _formKey,
+            child: Column(
+              children: [
+                FormBuilderTextField(
+                  name: "title",
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(context,
+                        errorText: 'Must not be nil'),
+                  ]),
+                  decoration: const InputDecoration(
+                    hintText: "Chore Name",
+                    border: InputBorder.none,
+                    prefixIcon: Icon(Icons.title),
                   ),
-                  const Text("Randomly assigning to..."),
-                  Expanded(
-                      child: ListView.builder(
-                    itemCount: names.length,
-                    itemBuilder: (context, index) {
-                      return Dismissible(
-                        key: UniqueKey(),
-                        onDismissed: (direction) {
-                          setState(() {
-                            names.removeAt(index);
-                          });
-                        },
-                        child: ListTile(
-                          title: Text(names[index]),
-                        ),
-                      );
-                    },
-                  )),
-                  Flexible(
-                      child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 3.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        const Text(
-                          'Add new name',
-                          style: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.w600),
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextField(
-                                controller: nameController,
-                                decoration: const InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.only(top: 10, bottom: 10),
-                                  isDense: true,
-                                ),
-                              ),
-                            ),
-                            ElevatedButton(
-                                onPressed: () {
-                                  addToList();
-                                },
-                                child: const Text("Add"))
-                          ],
-                        ),
-                        Builder(
-                            builder: (context) => ElevatedButton(
-                                  child: const Text("Create Chore"),
-                                  onPressed: () {
-                                    createChoreOnline();
-                                  },
-                                ))
-                      ],
-                    ),
-                  )),
-                ]),
-              ));
-  }
-
-  void addToList() {
-    if (nameController.text.isNotEmpty) {
-      setState(() {
-        names.add(nameController.text);
-      });
-    }
+                  onChanged: (val) {
+                    choreName = val!;
+                  },
+                ),
+                const Divider(),
+                FormBuilderDropdown(
+                  name: 'options',
+                  decoration: const InputDecoration(
+                    labelText: 'No. of People to Randomise',
+                  ),
+                  allowClear: true,
+                  initialValue: 2,
+                  validator: FormBuilderValidators.compose(
+                      [FormBuilderValidators.required(context)]),
+                  items: noOfOptions
+                      .map((val) => DropdownMenuItem(
+                    value: val,
+                    child: Text('$val'),
+                  ))
+                      .toList(),
+                  onChanged: (val) {
+                    randomiserNoOfOptions = val!;
+                  },
+                ),
+                const Divider(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

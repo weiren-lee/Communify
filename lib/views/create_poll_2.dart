@@ -38,7 +38,6 @@ class _CreatePollTwoState extends State<CreatePollTwo> {
           name: "date$i",
           // initialValue: DateTime.now(),
           // initialDate: DateTime.now(),
-          autovalidateMode: AutovalidateMode.always,
           validator: FormBuilderValidators.compose([
             FormBuilderValidators.required(context,
                 errorText: 'Must not be nil'),
@@ -79,32 +78,34 @@ class _CreatePollTwoState extends State<CreatePollTwo> {
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
               onPressed: () async {
-                pollOptions = [];
-                pollOptionsValues = [];
-                _formKey.currentState?.save();
-                pollId = randomAlphaNumeric(16);
-                for (var i = 0; i < widget.pollNoOfOptions; i++) {
-                  pollOptions.insert(
-                      i,
-                      (_formKey.currentState!.value['date$i'] as DateTime)
-                          .toString()
-                          .substring(0, 23));
-                  pollOptionsValues.insert(i, 0);
-                }
-                Map<String, dynamic> pollMap = {
-                  "pollId": pollId,
-                  "pollName": widget.pollTitle,
-                  "pollDetails": widget.pollDetails,
-                  "pollNoOfOptions": widget.pollNoOfOptions,
-                  "pollOptions": pollOptions,
-                  "createdBy": authService.getUserName(),
-                  "houseId": widget.houseId,
-                  "usersWhoVoted": {},
-                  "pollOptionsValues": pollOptionsValues,
-                };
-                await databaseService.addPolData(pollMap, pollId);
+                if (_formKey.currentState!.validate()) {
+                  pollOptions = [];
+                  pollOptionsValues = [];
+                  _formKey.currentState?.save();
+                  pollId = randomAlphaNumeric(16);
+                  for (var i = 0; i < widget.pollNoOfOptions; i++) {
+                    pollOptions.insert(
+                        i,
+                        (_formKey.currentState!.value['date$i'] as DateTime)
+                            .toString()
+                            .substring(0, 23));
+                    pollOptionsValues.insert(i, 0);
+                  }
+                  Map<String, dynamic> pollMap = {
+                    "pollId": pollId,
+                    "pollName": widget.pollTitle,
+                    "pollDetails": widget.pollDetails,
+                    "pollNoOfOptions": widget.pollNoOfOptions,
+                    "pollOptions": pollOptions,
+                    "createdBy": authService.getUserName(),
+                    "houseId": widget.houseId,
+                    "usersWhoVoted": {},
+                    "pollOptionsValues": pollOptionsValues,
+                  };
+                  await databaseService.addPolData(pollMap, pollId);
 
-                Navigator.pop(context);
+                  Navigator.pop(context);
+                }
               },
               child: const Text("Create Poll"),
             ),

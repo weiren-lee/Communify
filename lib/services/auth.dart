@@ -36,6 +36,33 @@ class AuthService {
     }
   }
 
+  checkPassword(password) async {
+    try {
+      User? currentUser = _auth.currentUser;
+      currentUser?.reload();
+      var email = currentUser?.email ?? '';
+      UserCredential authResult = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      if (authResult.user != null) {
+        return true;
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  updatePassword(newPassword) {
+    try {
+      User? currentUser = _auth.currentUser;
+      currentUser?.reload();
+      if (currentUser != null) {
+        currentUser.updatePassword(newPassword);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   updateProfile(String photoURL, String displayName) {
     try {
       User? currentUser = _auth.currentUser;

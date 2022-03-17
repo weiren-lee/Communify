@@ -1,6 +1,7 @@
 import 'package:communify/views/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'change_password.dart';
 import 'edit_profile.dart';
 
 class Settings extends StatefulWidget {
@@ -15,17 +16,37 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.blueGrey,
-          leading: IconButton(
-            icon: const Icon(
-              Icons.clear,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+        backgroundColor: Colors.blueGrey,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.clear,
+            color: Colors.white,
           ),
-          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+          actions: [
+            GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                    builder: (_) => const SignIn(),
+                  ));
+                },
+                child: SizedBox(
+                  width: 50.0,
+                  height: 45.0,
+                  child: Container(
+                      margin: const EdgeInsets.all(10.0),
+                      decoration: const BoxDecoration(
+                        color: Colors.transparent,
+                        shape: BoxShape.rectangle,
+                      ),
+                      child: const Icon(Icons.logout, color: Colors.white,)),)
+            )
+          ]
+      ),
       body: SettingsList(
         sections: [
           SettingsSection(
@@ -35,8 +56,7 @@ class _SettingsState extends State<Settings> {
                 title: const Text('Language'),
                 description: const Text('English'),
                 leading: const Icon(Icons.language),
-                onPressed: (context) {
-                },
+                onPressed: (context) {},
               ),
             ],
           ),
@@ -45,13 +65,20 @@ class _SettingsState extends State<Settings> {
             tiles: [
               SettingsTile(
                 title: const Text('Edit Profile'),
-                leading: const Icon(Icons.account_box),
+                leading: const Icon(Icons.account_circle_rounded),
                 onPressed: (context) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (_) => const EditProfile(),
-                    )
-                  );
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => const EditProfile(),
+                  ));
+                },
+              ),
+              SettingsTile(
+                title: const Text('Change Password'),
+                leading: const Icon(Icons.lock_open),
+                onPressed: (context) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => const ChangePassword(),
+                  ));
                 },
               ),
               SettingsTile(
@@ -59,7 +86,7 @@ class _SettingsState extends State<Settings> {
                 leading: const Icon(Icons.logout),
                 onPressed: (context) {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (_) => const SignIn(),
+                    builder: (_) => const SignIn(),
                   ));
                 },
               ),
@@ -71,9 +98,11 @@ class _SettingsState extends State<Settings> {
               SettingsTile.switchTile(
                 enabled: false,
                 title: const Text('Use fingerprint'),
-                description: const Text('Allow application to access stored fingerprint IDs.'),
+                description: const Text(
+                    'Allow application to access stored fingerprint IDs.'),
                 leading: const Icon(Icons.fingerprint),
-                onToggle: (bool value) {}, initialValue: false,
+                onToggle: (bool value) {},
+                initialValue: false,
                 // switchValue: false,
               ),
               SettingsTile.switchTile(
@@ -82,7 +111,8 @@ class _SettingsState extends State<Settings> {
                 // enabled: notificationsEnabled,
                 leading: const Icon(Icons.notifications_active),
                 // switchValue: true,
-                onToggle: (value) {}, initialValue: false,
+                onToggle: (value) {},
+                initialValue: false,
               ),
             ],
           ),

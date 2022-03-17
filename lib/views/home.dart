@@ -17,10 +17,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  AuthService authService = AuthService();
 
   late Stream fileStream;
   DatabaseService databaseService = DatabaseService();
+  AuthService authService = AuthService();
 
   Widget feedList() {
     return StreamBuilder(
@@ -43,6 +43,8 @@ class _HomeState extends State<Home> {
                 snapshot.data.docs[index].data()['datetime'],
                 feedId:
                   snapshot.data.docs[index].data()['feedId'],
+                profilePic:
+                  snapshot.data.docs[index].data()['profilePic'],
               );
             });
       },
@@ -62,16 +64,42 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    var currentUser = authService.getUserName();
+    var currentUserPP = authService.getProfilePicture();
     return Scaffold(
-      body: feedList(),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(
-                  builder: (context) => CreateFeed(houseId: widget.houseId)));
-        },
+      body: Column(
+        children: [
+          const SizedBox(height: 10.0,),
+          Row(
+            children: [
+              const SizedBox(width: 15.0,),
+              ProfileAvatar(imageUrl: currentUserPP),
+              const SizedBox(width: 10,),
+              Text(
+                'Welcome Back, ' + currentUser + '!',
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10.0,),
+          Expanded(child: feedList()),
+        ],
       ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+        floatingActionButton: FloatingActionButton(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10)
+            ),
+            elevation: 0,
+            backgroundColor: const Color(0xAA3385c6),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(
+                      builder: (context) => CreateFeed(houseId: widget.houseId)));
+            },
+            child: const Icon(Icons.add,
+                size:30)
+        )
     );
   }
 }
@@ -82,12 +110,13 @@ class FeedTile extends StatelessWidget {
   late final String name;
   late final String datetime;
   late final String feedId;
+  late final String profilePic;
 
-  FeedTile(
-      {required this.imgUrl, required this.desc, required this.name, required this.datetime, required this.feedId});
+  FeedTile({required this.imgUrl, required this.desc, required this.name, required this.datetime, required this.feedId, required this.profilePic});
 
   final String currentDateTime = DateTime.now().toString();
   DatabaseService databaseService = DatabaseService();
+  AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -152,8 +181,7 @@ class FeedTile extends StatelessWidget {
                 Row(
                   children: [
                     // to link profile pic later
-                    const ProfileAvatar(
-                        imageUrl: 'https://i.pinimg.com/originals/65/25/a0/6525a08f1df98a2e3a545fe2ace4be47.jpg'),
+                    ProfileAvatar(imageUrl: profilePic),
                     // change to profile pic
                     const SizedBox(width: 8.0,),
                     Expanded(

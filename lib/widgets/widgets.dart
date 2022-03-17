@@ -49,19 +49,19 @@ Widget appBar(BuildContext context) {
   );
 }
 
-Widget logoutButton(BuildContext context) {
-  return SizedBox(
-    width: 50.0,
-    height: 45.0,
-    child: Container(
-        margin: const EdgeInsets.all(10.0),
-        decoration: const BoxDecoration(
-          color: Colors.transparent,
-          shape: BoxShape.rectangle,
-        ),
-        child: const Icon(Icons.logout, color: Colors.black,)),
-  );
-}
+// Widget logoutButton(BuildContext context) {
+//   return SizedBox(
+//     width: 50.0,
+//     height: 45.0,
+//     child: Container(
+//         margin: const EdgeInsets.all(10.0),
+//         decoration: const BoxDecoration(
+//           color: Colors.transparent,
+//           shape: BoxShape.rectangle,
+//         ),
+//         child: const Icon(Icons.logout, color: Colors.black,)),
+//   );
+// }
 
 Widget blueButton(BuildContext context, String label, [buttonWidth]) {
   return Container(

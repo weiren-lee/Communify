@@ -61,13 +61,20 @@ class _ChooseHouseState extends State<ChooseHouse> {
           systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: houseList(),
-        floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const CreateHouse()));
-          },
-        ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+          floatingActionButton: FloatingActionButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)
+              ),
+              elevation: 0,
+              backgroundColor: const Color(0xAA3385c6),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const CreateHouse()));
+              },
+              child: const Icon(Icons.add,
+                  size:30)
+          )
       ),
     );
   }

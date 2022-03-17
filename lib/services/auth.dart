@@ -23,6 +23,32 @@ class AuthService {
     }
   }
 
+  getProfilePicture() {
+    try {
+      User? currentUser = _auth.currentUser;
+      currentUser?.reload();
+      if (currentUser != null) {
+        String? profilepicture = currentUser.photoURL?? 'https://i.pinimg.com/originals/65/25/a0/6525a08f1df98a2e3a545fe2ace4be47.jpg';
+        return profilepicture;
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  updateProfile(String photoURL, String displayName) {
+    try {
+      User? currentUser = _auth.currentUser;
+      currentUser?.reload();
+      if (currentUser != null) {
+        currentUser.updatePhotoURL(photoURL).catchError((e) {print(e.toString());});
+        currentUser.updateDisplayName(displayName).catchError((e) {print(e.toString());});
+      }
+    } catch(e) {
+      print(e.toString());
+    }
+  }
+
   Future signInEmailAndPass(String email, String password) async {
     try {
       UserCredential authResult = await _auth.signInWithEmailAndPassword(

@@ -60,6 +60,7 @@ class _CreateFeedState extends State<CreateFeed> {
         "name": authService.getUserName(),
         "datetime": datetime,
         "houseId": widget.houseId,
+        "profilePic": authService.getProfilePicture() ?? 'https://i.pinimg.com/originals/65/25/a0/6525a08f1df98a2e3a545fe2ace4be47.jpg',
       };
 
       await databaseService.addData(feedMap, feedId).then((value) {

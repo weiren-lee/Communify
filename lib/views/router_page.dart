@@ -2,6 +2,7 @@ import 'package:communify/services/auth.dart';
 import 'package:communify/views/chores.dart';
 import 'package:communify/views/home.dart';
 import 'package:communify/views/poll.dart';
+import 'package:communify/views/settings.dart';
 import 'package:communify/views/signin.dart';
 import 'package:communify/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -33,14 +34,23 @@ class _RouterPageState extends State<RouterPage> {
             systemOverlayStyle: SystemUiOverlayStyle.light,
             actions: [
               GestureDetector(
-                  onTap: () {
-                    authService.signOut();
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SignIn()));
-                  },
-                  child: logoutButton(context))
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Settings())
+                  );
+                },
+                child: SizedBox(
+                  width: 50.0,
+                  height: 45.0,
+                  child: Container(
+                      margin: const EdgeInsets.all(10.0),
+                      decoration: const BoxDecoration(
+                        color: Colors.transparent,
+                        shape: BoxShape.rectangle,
+                      ),
+                      child: const Icon(Icons.settings, color: Colors.white,)),)
+              )
             ]),
         body: IndexedStack(
           index: currentIndex,
@@ -53,7 +63,7 @@ class _RouterPageState extends State<RouterPage> {
         ),
         bottomNavigationBar: BottomNavigationBar(
             // type: BottomNavigationBarType.fixed,
-            backgroundColor: Color(0xAA3385c6),
+            backgroundColor: const Color(0xAA3385c6),
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white70,
             currentIndex: currentIndex,

@@ -36,8 +36,6 @@ class _HouseTileState extends State<HouseTile> {
                 onPressed: () {
                   // addToList();
                   // addItemData();
-                  print(houseController.text);
-                  print(widget.housePassword);
                   if (houseController.text == widget.housePassword) {
                     Navigator.push(
                         context,

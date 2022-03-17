@@ -48,7 +48,7 @@ class _SignInState extends State<SignIn> {
           automaticallyImplyLeading: false,
           centerTitle: true,
           title: loginAppBar(context),
-          backgroundColor: const Color(0xAA3385c6),
+          backgroundColor: Colors.blueGrey,
           elevation: 0.0,
           systemOverlayStyle: SystemUiOverlayStyle.light,
         ),

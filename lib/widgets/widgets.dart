@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:communify/config/palette.dart';
 
 Widget loginAppBar(BuildContext context) {
   return Row(
@@ -67,7 +66,7 @@ Widget blueButton(BuildContext context, String label, [buttonWidth]) {
   return Container(
     padding: const EdgeInsets.symmetric(vertical: 18),
     decoration: BoxDecoration(
-        color: Colors.blue, borderRadius: BorderRadius.circular(30)),
+        color: const Color(0xff98c1c9), borderRadius: BorderRadius.circular(25)),
     alignment: Alignment.center,
     width: buttonWidth != null ? buttonWidth : MediaQuery.of(context).size.width - 48,
     child: Text(

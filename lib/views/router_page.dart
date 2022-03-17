@@ -29,7 +29,7 @@ class _RouterPageState extends State<RouterPage> {
         appBar: AppBar(
             automaticallyImplyLeading: false,
             title: appBar(context),
-            backgroundColor: const Color(0xAA3385c6),
+            backgroundColor: Colors.blueGrey,
             elevation: 0.0,
             systemOverlayStyle: SystemUiOverlayStyle.light,
             actions: [
@@ -72,22 +72,22 @@ class _RouterPageState extends State<RouterPage> {
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: 'Feed',
-                backgroundColor: Color(0xAA3385c6),
+                backgroundColor: Colors.blueGrey,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.checklist),
                 label: 'Chores',
-                backgroundColor: Color(0xAA3385c6),
+                backgroundColor: Colors.blueGrey,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.bar_chart),
                 label: 'Polls',
-                backgroundColor: Color(0xAA3385c6),
+                backgroundColor: Colors.blueGrey,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.calendar_today),
                 label: 'Calendar',
-                backgroundColor: Color(0xAA3385c6),
+                backgroundColor: Colors.blueGrey,
               ),
             ]));
   }

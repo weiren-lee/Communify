@@ -79,27 +79,30 @@ class _HomeState extends State<Home> {
                 'Welcome Back, ' + currentUser + '!',
                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
+              const Spacer(),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blueGrey),
+                ),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(
+                          builder: (context) => CreateFeed(houseId: widget.houseId)));
+                },
+                child: const Text(
+                  "New Post",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),),
+              const Spacer(),
+
             ],
           ),
           const SizedBox(height: 10.0,),
           Expanded(child: feedList()),
         ],
       ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-        floatingActionButton: FloatingActionButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10)
-            ),
-            elevation: 0,
-            backgroundColor: const Color(0xAA3385c6),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(
-                      builder: (context) => CreateFeed(houseId: widget.houseId)));
-            },
-            child: const Icon(Icons.add,
-                size:30)
-        )
     );
   }
 }

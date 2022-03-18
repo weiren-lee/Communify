@@ -5,6 +5,7 @@ import 'package:communify/helper/functions.dart';
 import 'package:communify/services/auth.dart';
 import 'package:communify/views/signup.dart';
 import 'package:communify/widgets/widgets.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -14,10 +15,10 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   late String email, password;
   AuthService authService = AuthService();
-
+  bool _isObscure = true;
   bool _isLoading = false;
 
   signIn() async {
@@ -52,38 +53,75 @@ class _SignInState extends State<SignIn> {
           elevation: 0.0,
           systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
-        resizeToAvoidBottomInset: false,
+        // resizeToAvoidBottomInset: false,
         body: _isLoading
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : Form(
+            : FormBuilder(
                 key: _formKey,
                 child: Container(
                   margin:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                  child: Column(children: [
-                    const Spacer(),
-                    TextFormField(
-                        validator: (val) {
-                          return val!.isEmpty ? "Enter Email ID" : null;
-                        },
-                        decoration: const InputDecoration(hintText: "Email"),
-                        onChanged: (val) {
-                          email = val;
-                        }),
-                    const SizedBox(
-                      height: 6,
+                  child: ListView(children: [
+                    const SizedBox(height: 20,),
+                    Text(
+                      '"Unifying Communities with Communication"',
+                      style: TextStyle(
+                          fontSize: 35,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.blueGrey.shade700,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    TextFormField(
-                        obscureText: true,
-                        validator: (val) {
-                          return val!.isEmpty ? "Enter Password" : null;
-                        },
-                        decoration: const InputDecoration(hintText: "Password"),
+                    const SizedBox(height: 10,),
+                    const Align(
+                      alignment: Alignment.centerRight,
+                        child: Text('--- CommUnify', style: TextStyle(fontSize: 16),)
+                    ),
+
+                    const SizedBox(height: 140,),
+                    FormBuilderTextField(
+                        name: 'email',
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(context,
+                              errorText: 'Must not be nil'),
+                        ]),
+                        decoration: const InputDecoration(
+                          labelText: "Email",
+                          border: InputBorder.none,
+                          prefixIcon: Icon(Icons.email_outlined),
+                        ),
                         onChanged: (val) {
-                          password = val;
+                          email = val!;
                         }),
+                    const Divider(),
+                    FormBuilderTextField(
+                        name: 'password',
+                        obscureText: _isObscure,
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(context,
+                              errorText: 'Must not be nil'),
+                        ]),
+                        decoration: InputDecoration(
+                            labelText: "Password",
+                            border: InputBorder.none,
+                            prefixIcon: const Icon(Icons.lock_open_outlined),
+                            suffixIcon: IconButton(
+                              icon: Icon(_isObscure
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
+                              onPressed: () {
+                                setState(() {
+                                  _isObscure = !_isObscure;
+                                });
+                              },
+                              iconSize: 20,
+                            )),
+                        onChanged: (val) {
+                          password = val!;
+                        }),
+                    const Divider(),
                     const SizedBox(
                       height: 24,
                     ),
@@ -114,7 +152,7 @@ class _SignInState extends State<SignIn> {
                       ],
                     ),
                     const SizedBox(
-                      height: 80,
+                      height: 20,
                     ),
                   ]),
                 ),

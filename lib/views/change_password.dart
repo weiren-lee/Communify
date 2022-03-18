@@ -104,7 +104,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        hintText: "New Password",
+                        labelText: "New Password",
                         border: InputBorder.none,
                         prefixIcon: const Icon(Icons.lock),
                         suffixIcon: IconButton(
@@ -135,7 +135,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        hintText: "Re-enter Password",
+                        labelText: "Re-enter Password",
                         border: InputBorder.none,
                         prefixIcon: const Icon(Icons.lock),
                         suffixIcon: IconButton(

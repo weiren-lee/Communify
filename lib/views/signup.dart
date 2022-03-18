@@ -6,8 +6,7 @@ import 'package:communify/helper/functions.dart';
 import 'package:communify/services/auth.dart';
 import 'package:communify/views/signin.dart';
 import 'package:communify/widgets/widgets.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'home.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:random_string/random_string.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -19,11 +18,14 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
+  final TextEditingController _pass = TextEditingController();
+  final TextEditingController _confirmPass = TextEditingController();
   late String name, email, password, uid;
   AuthService authService = AuthService();
   bool _isLoading = false;
   DatabaseService databaseService = DatabaseService();
+  bool _isObscure = true;
 
   signUp() async {
     if (_formKey.currentState!.validate()) {
@@ -37,9 +39,6 @@ class _SignUpState extends State<SignUp> {
           setState(() {
             _isLoading = false;
           });
-          HelperFunctions.saveUserLoggedInDetails(isLoggedin: true);
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const ChooseHouse()));
         }
       });
       uid = randomAlphaNumeric(16);
@@ -61,6 +60,9 @@ class _SignUpState extends State<SignUp> {
           _isLoading = false;
         });
       });
+      HelperFunctions.saveUserLoggedInDetails(isLoggedin: true);
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const ChooseHouse()));
     }
   }
 
@@ -76,50 +78,112 @@ class _SignUpState extends State<SignUp> {
           elevation: 0.0,
           systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
-        resizeToAvoidBottomInset: false,
+        // resizeToAvoidBottomInset: false,
         body: _isLoading
-            ? Container(
-                child: const Center(
-                child: CircularProgressIndicator(),
-              ))
-            : Form(
+            ? const Center(
+            child: CircularProgressIndicator(),
+              )
+            : FormBuilder(
                 key: _formKey,
                 child: Container(
                   margin:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                  child: Column(children: [
+                  child: ListView(children: [
                     const Spacer(),
-                    TextFormField(
-                        validator: (val) {
-                          return val!.isEmpty ? "Enter Name" : null;
-                        },
-                        decoration: const InputDecoration(hintText: "Name"),
+                    FormBuilderTextField(
+                      name: 'name',
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(context,
+                              errorText: 'Must not be nil'),
+                        ]),
+                        decoration: const InputDecoration(
+                          labelText: "Display Name",
+                          border: InputBorder.none,
+                          prefixIcon: Icon(Icons.account_box_outlined),
+                        ),
                         onChanged: (val) {
-                          name = val;
+                          name = val!;
                         }),
-                    TextFormField(
-                        validator: (val) {
-                          return val!.isEmpty ? "Enter Email ID" : null;
-                        },
-                        decoration: const InputDecoration(hintText: "Email"),
+                    const Divider(),
+                    FormBuilderTextField(
+                      name: 'email',
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(context,
+                              errorText: 'Must not be nil'),
+                        ]),
+                        decoration: const InputDecoration(
+                          labelText: "Email",
+                          border: InputBorder.none,
+                          prefixIcon: Icon(Icons.email_outlined),
+                        ),
                         onChanged: (val) {
-                          email = val;
+                          email = val!;
                         }),
-                    const SizedBox(
-                      height: 6,
-                    ),
-                    TextFormField(
-                        obscureText: true,
-                        validator: (val) {
-                          return val!.isEmpty ? "Enter Password" : null;
+                    const Divider(),
+                    FormBuilderTextField(
+                      name: 'password',
+                        controller: _pass,
+                        obscureText: _isObscure,
+                        validator: (val){
+                          if(val!.isEmpty) {
+                            return 'Must not be nil';
+                          }
+                          if(val.length < 6) {
+                            return 'Password must be more than 6 characters';
+                          }
+                          return null;
                         },
-                        decoration: const InputDecoration(hintText: "Password"),
+                        decoration:  InputDecoration(
+                          labelText: "Password",
+                          border: InputBorder.none,
+                          prefixIcon: const Icon(Icons.lock_open_outlined),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                                _isObscure ? Icons.visibility : Icons.visibility_off),
+                            onPressed: () {
+                              setState(() {
+                                _isObscure = !_isObscure;
+                              });
+                            },
+                            iconSize: 20,
+                          )
+                        ),
                         onChanged: (val) {
-                          password = val;
+                          password = val!;
                         }),
-                    const SizedBox(
-                      height: 24,
-                    ),
+                    const Divider(),
+                    FormBuilderTextField(
+                        name: 'password2',
+                        obscureText: _isObscure,
+                        controller: _confirmPass,
+                        validator: (val){
+                          if(val!.isEmpty) {
+                            return 'Must not be nil';
+                          }
+                          if(val != _pass.text) {
+                            return 'Passwords do not Match';
+                          }
+                          return null;
+                        },
+                        decoration:  InputDecoration(
+                            labelText: "Re-enter Password",
+                            border: InputBorder.none,
+                            prefixIcon: const Icon(Icons.lock_open_outlined),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                  _isObscure ? Icons.visibility : Icons.visibility_off),
+                              onPressed: () {
+                                setState(() {
+                                  _isObscure = !_isObscure;
+                                });
+                              },
+                              iconSize: 20,
+                            )
+                        ),
+                        onChanged: (val) {
+                          password = val!;
+                        }),
+                    const Divider(),
                     GestureDetector(
                       onTap: () {
                         signUp();
@@ -148,7 +212,7 @@ class _SignUpState extends State<SignUp> {
                       ],
                     ),
                     const SizedBox(
-                      height: 80,
+                      height: 20,
                     ),
                   ]),
                 ),

@@ -144,7 +144,7 @@ class _EditProfileState extends State<EditProfile> {
                               errorText: 'Must not be nil'),
                         ]),
                         decoration: const InputDecoration(
-                          hintText: "Username",
+                          labelText: "Username",
                           border: InputBorder.none,
                           prefixIcon: Icon(Icons.chat_bubble_outline),
                         ),

@@ -85,7 +85,7 @@ class _ChoresState extends State<Chores> with TickerProviderStateMixin{
             ),
             const Text('Chores',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: Colors.blueGrey)),
             Padding(
               padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
               child: GestureDetector(
@@ -96,7 +96,10 @@ class _ChoresState extends State<Chores> with TickerProviderStateMixin{
                           builder: (context) =>
                               CreateChores(houseId: widget.houseId)));
                 },
-                child: const Icon(Icons.notification_add_outlined),
+                child: Icon(
+                    Icons.notification_add_outlined,
+                  color: Colors.grey[600],
+                ),
               ),
             ),
             const Spacer(),
@@ -145,14 +148,18 @@ class _ChoresState extends State<Chores> with TickerProviderStateMixin{
             ),
             const Text('Items to Buy',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: Colors.blueGrey),
+            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
               child: GestureDetector(
                 onTap: () {
                   createModal(context);
                 },
-                child: const Icon(Icons.library_add_outlined),
+                child: Icon(
+                  Icons.library_add_outlined,
+                  color: Colors.grey[600],
+                ),
               ),
             ),
             const Spacer(),

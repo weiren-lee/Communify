@@ -77,7 +77,7 @@ class _HomeState extends State<Home> {
               const SizedBox(width: 10,),
               Text(
                 'Welcome Back, ' + currentUser + '!',
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.blueGrey),
               ),
               const Spacer(),
               ElevatedButton(
@@ -180,12 +180,9 @@ class FeedTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // start of post header
                 Row(
                   children: [
-                    // to link profile pic later
                     ProfileAvatar(imageUrl: profilePic),
-                    // change to profile pic
                     const SizedBox(width: 8.0,),
                     Expanded(
                       child: Column(

@@ -78,7 +78,7 @@ class _PollState extends State<Poll> {
               ),
               const Text('Polls',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: Colors.blueGrey)),
               Padding(
                 padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
                 child: GestureDetector(
@@ -88,7 +88,11 @@ class _PollState extends State<Poll> {
                         MaterialPageRoute(
                             builder: (context) => CreatePoll(houseId: widget.houseId)));
                   },
-                  child: const Icon(Icons.addchart_outlined),
+                  child: Icon(
+                    Icons.addchart_outlined,
+                    color: Colors.grey[600],
+
+                  ),
                 ),
               ),
               const Spacer(),

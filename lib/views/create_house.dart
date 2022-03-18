@@ -5,6 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:path/path.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:communify/services/firebase_api.dart';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class CreateHouse extends StatefulWidget {
   const CreateHouse({Key? key}) : super(key: key);
@@ -19,6 +24,9 @@ class _CreateHouseState extends State<CreateHouse> {
   DatabaseService databaseService = DatabaseService();
   AuthService authService = AuthService();
   bool _isLoading = false;
+  File? image;
+  File? file;
+  UploadTask? task;
 
   createHouseOnline() async {
     final QuerySnapshot qSnap =
@@ -95,6 +103,40 @@ class _CreateHouseState extends State<CreateHouse> {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              pickImage(ImageSource.camera);
+                            },
+                            icon: const Icon(Icons.photo_camera_outlined, size: 32),
+                          ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: CircleAvatar(
+                              radius: 88,
+                              backgroundColor: Colors.blueGrey,
+                              child: ClipOval(
+                                child: SizedBox(
+                                    width: 160.0,
+                                    height: 160.0,
+                                    child: image != null
+                                        ? Image.file(image!,
+                                        width: 160, height: 160, fit: BoxFit.fill)
+                                        : const Icon(Icons.house)
+                                ),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              pickImage(ImageSource.gallery);
+                            },
+                            icon: const Icon(Icons.photo_library_outlined, size: 32),
+                          ),
+                        ],
+                      ),
                       const SizedBox(
                         height: 15,
                       ),
@@ -136,5 +178,18 @@ class _CreateHouseState extends State<CreateHouse> {
                 ),
               )
     );
+  }
+  Future pickImage(ImageSource source) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+
+      final imageTemp = File(image.path);
+      setState(() {
+        this.image = imageTemp;
+      });
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
   }
 }

@@ -62,9 +62,10 @@ class _SignInState extends State<SignIn> {
                 key: _formKey,
                 child: Container(
                   margin:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                  child: ListView(children: [
-                    const SizedBox(height: 20,),
+                      const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(children: [
+                    const Spacer(),
+                    const Spacer(),
                     Text(
                       '"Unifying Communities with Communication"',
                       style: TextStyle(
@@ -74,13 +75,14 @@ class _SignInState extends State<SignIn> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 10,),
                     const Align(
                       alignment: Alignment.centerRight,
-                        child: Text('--- CommUnify', style: TextStyle(fontSize: 16),)
+                        child: Text('--- CommUnify', style: TextStyle(fontSize: 14),)
                     ),
-
-                    const SizedBox(height: 140,),
+                    const Spacer(),
+                    const Spacer(),
+                    const Spacer(),
+                    const Spacer(),
                     FormBuilderTextField(
                         name: 'email',
                         validator: FormBuilderValidators.compose([
@@ -121,18 +123,14 @@ class _SignInState extends State<SignIn> {
                         onChanged: (val) {
                           password = val!;
                         }),
-                    const Divider(),
-                    const SizedBox(
-                      height: 24,
-                    ),
+                    // const Divider(),
+                    const Spacer(),
                     GestureDetector(
                         onTap: () {
                           signIn();
                         },
                         child: blueButton(context, "Sign In")),
-                    const SizedBox(
-                      height: 18,
-                    ),
+                    const Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -151,9 +149,8 @@ class _SignInState extends State<SignIn> {
                                     decoration: TextDecoration.underline))),
                       ],
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    const Spacer(),
+
                   ]),
                 ),
               ),

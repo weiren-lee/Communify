@@ -27,6 +27,7 @@ class _CreateHouseState extends State<CreateHouse> {
   File? image;
   File? file;
   UploadTask? task;
+  bool _isObscure = true;
 
   createHouseOnline() async {
     final QuerySnapshot qSnap =
@@ -39,10 +40,21 @@ class _CreateHouseState extends State<CreateHouse> {
         _isLoading = true;
       });
 
+      var urlDownload = "";
+      if (image != null) {
+        final fileName = basename(image!.path);
+        final destination = 'houses/$fileName';
+        task = FirebaseApi.uploadFile(destination, image!);
+        final snapshot = await task!.whenComplete(() {});
+        urlDownload = await snapshot.ref.getDownloadURL();
+      };
+
       Map<String, String> houseMap = {
         "houseId": houseIdInt.toString(),
         "houseName": houseName,
         "housePassword": housePassword,
+        "housePicture": urlDownload,
+        "createdBy": authService.getUserName(),
       };
 
       await databaseService
@@ -99,10 +111,11 @@ class _CreateHouseState extends State<CreateHouse> {
               )
             : FormBuilder(
                 key: _formKey,
-                child: Container(
+                child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
+                  children: [Column(
                     children: [
+                      const SizedBox(height: 20,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -124,7 +137,15 @@ class _CreateHouseState extends State<CreateHouse> {
                                     child: image != null
                                         ? Image.file(image!,
                                         width: 160, height: 160, fit: BoxFit.fill)
-                                        : const Icon(Icons.house)
+                                        : CircleAvatar(
+                                      radius: 77,
+                                          backgroundColor: Colors.grey[200],
+                                          child: const Icon(
+                                          Icons.house,
+                                      size: 80,
+                                            color: Colors.blueGrey,
+                                    ),
+                                        )
                                 ),
                               ),
                             ),
@@ -147,7 +168,7 @@ class _CreateHouseState extends State<CreateHouse> {
                               errorText: 'Must not be nil'),
                         ]),
                         decoration: const InputDecoration(
-                          hintText: "House Name",
+                          labelText: "House Name",
                           border: InputBorder.none,
                           prefixIcon: Icon(Icons.house),
                         ),
@@ -156,17 +177,27 @@ class _CreateHouseState extends State<CreateHouse> {
                         },
                       ),
                       const Divider(),
-
                       FormBuilderTextField(
                         name: 'password',
+                        obscureText: _isObscure,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(context,
                               errorText: 'Must not be nil'),
                         ]),
-                        decoration: const InputDecoration(
-                          hintText: "House Password",
+                        decoration: InputDecoration(
                           border: InputBorder.none,
-                          prefixIcon: Icon(Icons.password),
+                          prefixIcon: const Icon(Icons.lock),
+                          labelText: 'House Password',
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _isObscure ? Icons.visibility : Icons.visibility_off),
+                              onPressed: () {
+                              setState(() {
+                                _isObscure = !_isObscure;
+                              });
+                              },
+                            iconSize: 20,
+                          )
                         ),
                         onChanged: (val) {
                           housePassword = val!;
@@ -174,7 +205,7 @@ class _CreateHouseState extends State<CreateHouse> {
                       ),
                       const Divider(),
                     ],
-                  ),
+                  ),]
                 ),
               )
     );

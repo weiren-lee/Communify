@@ -28,9 +28,10 @@ class _ChooseHouseState extends State<ChooseHouse> {
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (context, index) {
                   return HouseTile(
-                      houseId: snapshot.data.docs[index].data()['houseId'],
-                      houseName: snapshot.data.docs[index].data()['houseName'],
-                    housePassword: snapshot.data.docs[index].data()['housePassword']
+                    houseId: snapshot.data.docs[index].data()['houseId'],
+                    houseName: snapshot.data.docs[index].data()['houseName'],
+                    housePassword: snapshot.data.docs[index].data()['housePassword'],
+                    housePicture: snapshot.data.docs[index].data()['housePicture']
                   );
                 },
         );

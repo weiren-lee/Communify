@@ -1,14 +1,16 @@
 import 'package:communify/services/auth.dart';
 import 'package:communify/services/database.dart';
 import 'package:communify/views/router_page.dart';
+import 'package:communify/widgets/profile_avatar.dart';
 import 'package:flutter/material.dart';
 
 class HouseTile extends StatefulWidget {
   final String houseId;
   final String houseName;
   final String housePassword;
+  final String housePicture;
 
-  const HouseTile({Key? key, required this.houseId, required this.houseName, required this.housePassword})
+  const HouseTile({Key? key, required this.houseId, required this.houseName, required this.housePassword, required this.housePicture})
       : super(key: key);
 
   @override
@@ -56,7 +58,8 @@ class _HouseTileState extends State<HouseTile> {
       padding: const EdgeInsets.all(5.0),
       child: Card(
         child: ListTile(
-          leading: const Icon(
+          leading: widget.housePicture != "" ?
+          ProfileAvatar(imageUrl: widget.housePicture): const Icon(
             Icons.home,
             size: 38,
           ),

@@ -77,7 +77,6 @@ class _CalendarState extends State<Calendar> {
             _groupEvents(events);
             DateTime? selectedDate = _selectedDay;
             final _selectedEvents = _groupedEvents[selectedDate] ?? [];
-
             return Column(
               children: [
                 Card(
@@ -174,20 +173,20 @@ class _CalendarState extends State<Calendar> {
                         parent: AlwaysScrollableScrollPhysics()),
                     itemCount: _selectedEvents.length,
                     itemBuilder: (context, index) {
-                      // var event = _selectedEvents[index];
                       return Container(
                         height: 70,
                         decoration: BoxDecoration(
-                          color: Colors.blueGrey.shade100,
+                          color: Colors.blueGrey.shade50,
                           border: Border.all(color: Colors.blueGrey.shade200),
                           borderRadius: BorderRadius.circular(5.0),
                         ),
                         child: ListTile(
                           title: Text(
-                              snapshot.data.docs[index].data()['eventTitle']),
+                            _selectedEvents[index]['eventTitle']
+                          ),
                           subtitle: Text(DateFormat("EEEE, dd MMMM, yyyy, h:mm a")
-                              .format(DateTime.parse(snapshot.data.docs[index]
-                                  .data()['eventDatetime']))),
+                              .format(DateTime.parse(_selectedEvents[index]
+                                  ['eventDatetime']))),
                           onTap: () {
                             Navigator.push(
                                 context,

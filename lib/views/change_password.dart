@@ -14,6 +14,8 @@ class _ChangePasswordState extends State<ChangePassword> {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
+  bool _isObscure = true;
+  bool _isObscure2 = true;
 
   // checkPass(password) async {
   //   var correct = await authService.checkPassword(password);
@@ -90,7 +92,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                     FormBuilderTextField(
                       name: "newPassword",
                       controller: _pass,
-                      obscureText: true,
+                      obscureText: _isObscure,
                       maxLines: 1,
                       validator: (val){
                         if(val!.isEmpty) {
@@ -101,17 +103,27 @@ class _ChangePasswordState extends State<ChangePassword> {
                         }
                         return null;
                       },
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         hintText: "New Password",
                         border: InputBorder.none,
-                        prefixIcon: Icon(Icons.lock),
+                        prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                              _isObscure ? Icons.visibility : Icons.visibility_off),
+                          onPressed: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });
+                          },
+                          iconSize: 20,
+                        )
                       ),
                     ),
                     const Divider(),
                     FormBuilderTextField(
                       name: "checkPassword",
                       controller: _confirmPass,
-                      obscureText: true,
+                      obscureText: _isObscure2,
                       maxLines: 1,
                       validator: (val){
                         if(val!.isEmpty) {
@@ -122,10 +134,20 @@ class _ChangePasswordState extends State<ChangePassword> {
                         }
                         return null;
                       },
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         hintText: "Re-enter Password",
                         border: InputBorder.none,
-                        prefixIcon: Icon(Icons.lock),
+                        prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                              _isObscure2 ? Icons.visibility : Icons.visibility_off),
+                          onPressed: () {
+                            setState(() {
+                              _isObscure2 = !_isObscure2;
+                            });
+                          },
+                          iconSize: 20,
+                        )
                       ),
                     ),
                   ],

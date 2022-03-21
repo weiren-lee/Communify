@@ -22,7 +22,7 @@ class Calendar extends StatefulWidget {
 class _CalendarState extends State<Calendar> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
+  DateTime? _selectedDay = DateTime.now();
   late Stream eventsStream;
   DatabaseService databaseService = DatabaseService();
   late LinkedHashMap<DateTime, List> _groupedEvents;
@@ -44,21 +44,10 @@ class _CalendarState extends State<Calendar> {
   _groupEvents(List events) {
     _groupedEvents = LinkedHashMap(equals: isSameDay, hashCode: getHashCode);
     for (var event in events) {
-      // print(_selectedDay?.millisecondsSinceEpoch);
-      // print(_groupedEvents[hashCode]);
-      // print(_groupedEvents[(int.parse(event['eventDatetime']))]);
       DateTime e = DateTime.parse(event['eventDatetime']);
       DateTime date = DateTime.utc(e.year, e.month, e.day, 12);
       if (_groupedEvents[date] == null) _groupedEvents[date] = [];
       _groupedEvents[date]?.add(event);
-
-      // if (event['eventDatetime'] == _selectedDay.toString().substring(0,23)) print('hello');
-      // print(DateTime.utc(int.parse(event['eventDatetime'])));
-
-      // DateTime date = DateTime.utc(event.date.year, event.date.month, event.date.day, 12);
-      // if (_groupedEvents[date] == null) _groupedEvents[date] = [];
-      // _groupedEvents[date]?.add(event);
-      // print(DateTime.fromMillisecondsSinceEpoch(int.parse(event['eventDatetime'])));
     }
   }
 
@@ -72,7 +61,6 @@ class _CalendarState extends State<Calendar> {
       body: StreamBuilder(
           stream: eventsStream,
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            // if (snapshot.hasData) {
             final events = snapshot.data.docs;
             _groupEvents(events);
             DateTime? selectedDate = _selectedDay;
@@ -193,7 +181,6 @@ class _CalendarState extends State<Calendar> {
                                 MaterialPageRoute(
                                     builder: (context) => EventDetails(
                                           event: _selectedEvents[index],
-                                              // snapshot.data.docs[index].data(),
                                           houseId: widget.houseId,
                                         )));
                           },

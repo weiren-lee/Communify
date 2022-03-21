@@ -130,8 +130,8 @@ class FeedTile extends StatelessWidget {
     (currentDateTime.substring(11, 13) == datetime.substring(11, 13)) ?
     (currentDateTime.substring(14, 16) == datetime.substring(14, 16)) ?
     (currentDateTime.substring(17, 19) == datetime.substring(17, 19))
-        ? 'just posted'
-        : 'a few seconds ago'
+        ? 'just posted '
+        : 'a few seconds ago '
         : (int.parse(currentDateTime.substring(14, 16)) -
         int.parse(datetime.substring(14, 16))).toString() == '1' ? (int.parse(
         currentDateTime.substring(14, 16)) -
@@ -166,6 +166,7 @@ class FeedTile extends StatelessWidget {
     deleteFeed(feedId) async {
       await databaseService.deleteFeed(feedId);
     }
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),

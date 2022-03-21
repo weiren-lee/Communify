@@ -220,9 +220,9 @@ class _ChoresState extends State<Chores> with TickerProviderStateMixin{
                                                   .data()['itemName'],
                                                 style: TextStyle(
                                                   color: Colors.black,
-                                                  decorationColor: Colors.blueGrey,
+                                                  decorationColor: Colors.blueGrey[700],
                                                   decorationStyle: TextDecorationStyle.solid,
-                                                  decorationThickness: 3,
+                                                  decorationThickness: 3.5,
                                                   decoration: snapshot.data.docs[index].data()['bought']
                                                       ? TextDecoration.lineThrough
                                                       : TextDecoration.none,

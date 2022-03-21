@@ -36,15 +36,15 @@ class _HouseTileState extends State<HouseTile> {
                 elevation: 5.0,
                 child: const Text('Enter'),
                 onPressed: () {
-                  // addToList();
-                  // addItemData();
                   if (houseController.text == widget.housePassword) {
+                    databaseService.updateHouseUsers(
+                        widget.houseId, authService.getUserName());
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
                                 RouterPage(houseId: widget.houseId)));
-                                }
+                  }
                 },
               )
             ],
@@ -67,14 +67,7 @@ class _HouseTileState extends State<HouseTile> {
           subtitle: Text("Id: " + widget.houseId),
           trailing: const Icon(Icons.arrow_forward_ios),
           onTap: () => {
-            databaseService.updateHouseUsers(
-                widget.houseId, authService.getUserName()),
             checkPasswordModal(context),
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) =>
-            //             RouterPage(houseId: widget.houseId)))
           },
         ),
       ),

@@ -15,7 +15,7 @@ class _CreateChoresState extends State<CreateChores> {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   late String choreName;
   List<String> names = [];
-  List noOfOptions = [2, 3, 4];
+  List noOfOptions = [1, 2, 3, 4, 5, 6];
   var randomiserNoOfOptions;
 
   @override

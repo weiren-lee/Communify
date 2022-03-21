@@ -43,11 +43,7 @@ class _CreateFeedState extends State<CreateFeed> {
       if (image != null) {
         final fileName = basename(image!.path);
         final destination = 'files/$fileName';
-
         task = FirebaseApi.uploadFile(destination, image!);
-
-        // if (task == null) return;
-
         final snapshot = await task!.whenComplete(() {});
         urlDownload = await snapshot.ref.getDownloadURL();
       };
@@ -60,7 +56,7 @@ class _CreateFeedState extends State<CreateFeed> {
         "name": authService.getUserName(),
         "datetime": datetime,
         "houseId": widget.houseId,
-        "profilePic": authService.getProfilePicture() ?? 'https://i.pinimg.com/originals/65/25/a0/6525a08f1df98a2e3a545fe2ace4be47.jpg',
+        "profilePic": authService.getProfilePicture() ?? 'https://pic.onlinewebfonts.com/svg/img_568656.png',
       };
 
       await databaseService.addData(feedMap, feedId).then((value) {

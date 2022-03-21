@@ -28,7 +28,7 @@ class AuthService {
       User? currentUser = _auth.currentUser;
       currentUser?.reload();
       if (currentUser != null) {
-        String? profilepicture = currentUser.photoURL?? 'https://i.pinimg.com/originals/65/25/a0/6525a08f1df98a2e3a545fe2ace4be47.jpg';
+        String? profilepicture = currentUser.photoURL?? 'https://pic.onlinewebfonts.com/svg/img_568656.png';
         return profilepicture;
       }
     } catch (e) {

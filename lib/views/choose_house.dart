@@ -28,13 +28,14 @@ class _ChooseHouseState extends State<ChooseHouse> {
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (context, index) {
                   return HouseTile(
-                    houseId: snapshot.data.docs[index].data()['houseId'],
-                    houseName: snapshot.data.docs[index].data()['houseName'],
-                    housePassword: snapshot.data.docs[index].data()['housePassword'],
-                    housePicture: snapshot.data.docs[index].data()['housePicture']
-                  );
+                      houseId: snapshot.data.docs[index].data()['houseId'],
+                      houseName: snapshot.data.docs[index].data()['houseName'],
+                      housePassword:
+                          snapshot.data.docs[index].data()['housePassword'],
+                      housePicture:
+                          snapshot.data.docs[index].data()['housePicture']);
                 },
-        );
+              );
       },
     );
   }
@@ -54,50 +55,50 @@ class _ChooseHouseState extends State<ChooseHouse> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: appBar(context),
-          backgroundColor: Colors.blueGrey,
-          elevation: 0.0,
-          iconTheme: const IconThemeData(color: Colors.black87),
-          systemOverlayStyle: SystemUiOverlayStyle.light,
-            actions: [
-              GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Settings())
-                    );
-                  },
-                  child: SizedBox(
-                    width: 50.0,
-                    height: 45.0,
-                    child: Container(
-                        margin: const EdgeInsets.all(10.0),
-                        decoration: const BoxDecoration(
-                          color: Colors.transparent,
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: const Icon(Icons.settings, color: Colors.white,)),)
-              )
-            ]
-        ),
-        body: houseList(),
+          appBar: AppBar(
+              automaticallyImplyLeading: false,
+              title: appBar(context),
+              backgroundColor: Colors.blueGrey,
+              elevation: 0.0,
+              iconTheme: const IconThemeData(color: Colors.black87),
+              systemOverlayStyle: SystemUiOverlayStyle.light,
+              actions: [
+                GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Settings()));
+                    },
+                    child: SizedBox(
+                      width: 50.0,
+                      height: 45.0,
+                      child: Container(
+                          margin: const EdgeInsets.all(10.0),
+                          decoration: const BoxDecoration(
+                            color: Colors.transparent,
+                            shape: BoxShape.rectangle,
+                          ),
+                          child: const Icon(
+                            Icons.settings,
+                            color: Colors.white,
+                          )),
+                    ))
+              ]),
+          body: houseList(),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           floatingActionButton: FloatingActionButton(
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)
-              ),
+                  borderRadius: BorderRadius.circular(10)),
               elevation: 0,
               backgroundColor: Colors.blueGrey,
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const CreateHouse()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CreateHouse()));
               },
-              child: const Icon(Icons.add,
-                  size:30)
-          )
-      ),
+              child: const Icon(Icons.add, size: 30))),
     );
   }
 }

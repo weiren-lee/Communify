@@ -192,8 +192,8 @@ class _CalendarState extends State<Calendar> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => EventDetails(
-                                          event:
-                                              snapshot.data.docs[index].data(),
+                                          event: _selectedEvents[index],
+                                              // snapshot.data.docs[index].data(),
                                           houseId: widget.houseId,
                                         )));
                           },

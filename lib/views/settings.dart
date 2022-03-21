@@ -1,3 +1,4 @@
+import 'package:communify/services/auth.dart';
 import 'package:communify/views/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
@@ -12,6 +13,12 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  AuthService authService = AuthService();
+
+  signOut() async {
+    await authService.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +36,7 @@ class _SettingsState extends State<Settings> {
           actions: [
             GestureDetector(
                 onTap: () {
+                  signOut();
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                     builder: (_) => const SignIn(),
@@ -82,9 +90,10 @@ class _SettingsState extends State<Settings> {
                 },
               ),
               SettingsTile(
-                title: const Text('Sign out'),
+                title: const Text('Sign Out'),
                 leading: const Icon(Icons.logout),
                 onPressed: (context) {
+                  signOut();
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (_) => const SignIn(),
                   ));

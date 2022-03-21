@@ -117,9 +117,9 @@ class _EditProfileState extends State<EditProfile> {
                                       ? Image.file(image!,
                                       width: 160, height: 160, fit: BoxFit.fill)
                                       : (currentPP != null ?
-                                  CircleAvatar(backgroundImage: CachedNetworkImageProvider(currentPP),)
+                                  CircleAvatar(backgroundImage: CachedNetworkImageProvider(currentPP), backgroundColor: Colors.grey[200],)
                                       : Image.network(
-                                    "https://i.pinimg.com/originals/65/25/a0/6525a08f1df98a2e3a545fe2ace4be47.jpg",
+                                    "https://pic.onlinewebfonts.com/svg/img_568656.png",
                                     fit: BoxFit.fill,
                                   ))
                                 ),
@@ -144,7 +144,7 @@ class _EditProfileState extends State<EditProfile> {
                               errorText: 'Must not be nil'),
                         ]),
                         decoration: const InputDecoration(
-                          labelText: "Username",
+                          labelText: "Display Name",
                           border: InputBorder.none,
                           prefixIcon: Icon(Icons.chat_bubble_outline),
                         ),

@@ -18,6 +18,7 @@ class _ChoresState extends State<Chores> with TickerProviderStateMixin{
   late Stream itemStream;
   AuthService authService = AuthService();
   DatabaseService databaseService = DatabaseService();
+  String createdAt = DateTime.now().toString();
 
   // List<String> itemName = [];
   TextEditingController itemController = TextEditingController();
@@ -30,6 +31,7 @@ class _ChoresState extends State<Chores> with TickerProviderStateMixin{
       "itemName": itemController.text,
       "houseId": widget.houseId,
       "bought": false,
+      "createdAt": createdAt,
     };
     await databaseService.addItemNameData(itemMap, itemId);
   }

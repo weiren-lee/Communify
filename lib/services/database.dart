@@ -52,16 +52,15 @@ class DatabaseService {
     return await FirebaseFirestore.instance
         .collection("feed")
         .where('houseId', isEqualTo: houseId)
+        .orderBy('datetime', descending: true)
         .snapshots();
-    QuerySnapshot response2 = FirebaseFirestore.instance
-        .collection("user")
-        .snapshots() as QuerySnapshot<Object?>;
   }
 
   getChoresData(houseId) async {
     return await FirebaseFirestore.instance
         .collection("chores")
         .where('houseId', isEqualTo: houseId)
+        .orderBy('createdAt', descending: true)
         .snapshots();
   }
 
@@ -95,6 +94,7 @@ class DatabaseService {
     return await FirebaseFirestore.instance
         .collection('items')
         .where('houseId', isEqualTo: houseId)
+        .orderBy('createdAt', descending: true)
         .snapshots();
   }
 
@@ -180,6 +180,7 @@ class DatabaseService {
     return await FirebaseFirestore.instance
         .collection("polls")
         .where('houseId', isEqualTo: houseId)
+        .orderBy('createdAt', descending: true)
         .snapshots();
   }
 

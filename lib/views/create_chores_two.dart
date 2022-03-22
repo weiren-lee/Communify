@@ -29,6 +29,7 @@ class _CreateChoresTwoState extends State<CreateChoresTwo> {
   late String choreId;
   List<String> names = [];
   var randomiserNoOfOptions;
+  String createdAt = DateTime.now().toString();
 
   Widget getRandomiseName(options) {
     List<Widget> list = [];
@@ -93,6 +94,7 @@ class _CreateChoresTwoState extends State<CreateChoresTwo> {
                     "assignedUser": assignedUser,
                     "status": "incomplete",
                     "houseId": widget.houseId,
+                    "createdAt": createdAt,
                   };
                   await databaseService.addChoresData(choreMap, choreId);
                   var count = 0;

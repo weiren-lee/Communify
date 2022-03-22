@@ -29,6 +29,7 @@ class _CreatePollTwoState extends State<CreatePollTwo> {
   late String pollId;
   List pollOptions = [];
   List pollOptionsValues = [];
+  String createdAt = DateTime.now().toString();
 
   Widget getDateTimeWidget(options) {
     List<Widget> list = [];
@@ -104,6 +105,7 @@ class _CreatePollTwoState extends State<CreatePollTwo> {
                     "houseId": widget.houseId,
                     "usersWhoVoted": {},
                     "pollOptionsValues": pollOptionsValues,
+                    "createdAt": createdAt,
                   };
                   await databaseService.addPolData(pollMap, pollId);
 

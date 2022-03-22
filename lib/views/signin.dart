@@ -21,13 +21,36 @@ class _SignInState extends State<SignIn> {
   bool _isObscure = true;
   bool _isLoading = false;
 
+  Future<Future> showAlertDialog({
+    required BuildContext context,
+    required String titleText,
+    required String messageText,
+  }) async {
+    final Widget okButton = ElevatedButton(
+      onPressed: () => Navigator.pop(context, 'Ok'),
+      child: const Text('Ok'),
+    );
+    final alert = AlertDialog(
+      title: Text(titleText),
+      content: Text(messageText),
+      actions: [
+        okButton,
+      ],
+    );
+
+    return showDialog(
+      context: context,
+      builder: (context) => alert,
+    );
+  }
+
   signIn() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
       });
 
-      await authService.signInEmailAndPass(email, password).then((val) {
+      await authService.signInEmailAndPass(email, password).then((val) async {
         if (val != null) {
           setState(() {
             _isLoading = false;
@@ -35,8 +58,19 @@ class _SignInState extends State<SignIn> {
           HelperFunctions.saveUserLoggedInDetails(isLoggedin: true);
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const ChooseHouse()));
+        } else {
+          setState(() {
+            _isLoading = false;
+          });
+          await showAlertDialog(
+            context: context,
+            titleText: 'Please Try Again',
+            messageText:
+            'Username or Password is incorrect!',
+          );
         }
-      });
+      }
+      );
     }
   }
 

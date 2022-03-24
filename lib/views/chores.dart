@@ -131,6 +131,7 @@ class _ChoresState extends State<Chores> with TickerProviderStateMixin{
                                     .data()['choreName'],
                                 assignedUser: snapshot.data.docs[index]
                                     .data()['assignedUser'],
+                                status: snapshot.data.docs[index].data()['status']
                               );
                             }),
                       )
@@ -290,11 +291,13 @@ class ChoresTiles extends StatefulWidget {
   late final String chores;
   late final String assignedUser;
   late final String choreId;
+  late final String status;
 
   ChoresTiles(
       {required this.chores,
       required this.assignedUser,
-      required this.choreId});
+      required this.choreId,
+      required this.status});
 
   @override
   State<ChoresTiles> createState() => _ChoresTilesState();
@@ -397,7 +400,7 @@ class _ChoresTilesState extends State<ChoresTiles> {
                       ToggleButtons(
                         borderColor: Colors.black,
                         fillColor:
-                            isSelected[0] == true ? Colors.green : Colors.red,
+                            widget.status == 'completed' ? Colors.green : Colors.red,
                         constraints:
                             const BoxConstraints(minHeight: 10, minWidth: 10),
                         borderWidth: 2,
@@ -424,9 +427,9 @@ class _ChoresTilesState extends State<ChoresTiles> {
                           setState(() {
                             for (int i = 0; i < isSelected.length; i++) {
                               isSelected[i] = i == index;
-                              if (isSelected[0] == true) {
-                                deleteChores(widget.choreId);
-                              }
+                              // if (isSelected[0] == true) {
+                              //   deleteChores(widget.choreId);
+                              // }
                             }
                           });
                           updateCompletedStatus(
@@ -435,7 +438,7 @@ class _ChoresTilesState extends State<ChoresTiles> {
                                   ? 'completed'
                                   : 'incomplete');
                         },
-                        isSelected: isSelected,
+                        isSelected: widget.status == 'completed' ? [true, false]: [false, true],
                       ),
                       const Spacer(),
                     ],
